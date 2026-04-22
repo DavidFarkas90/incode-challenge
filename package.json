@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "open:report": "npx playwright show-report",
+    "open:ui-mode": "npx playwright test --ui",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
@@ -14,6 +16,7 @@
   "devDependencies": {
     "@playwright/test": "^1.59.1",
     "@types/node": "^25.6.0",
+    "dotenv": "^17.4.2",
     "prettier": "^3.8.3"
   }
 }
