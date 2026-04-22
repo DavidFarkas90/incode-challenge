@@ -38,6 +38,9 @@ test("assert user name in single session page", async ({ page }) => {
     const idOCRTableVisible = await singleSessionPage.isIdOCRTableVisible();
     expect(idOCRTableVisible).toBe(true);
     const userNameInTable = await singleSessionPage.getIdOCRContentByLabel(Labels.FULL_NAME_OCR);
-    expect(userNameInTable).toBe(USER_NAME);
+    const expectedUserName = USER_NAME.toUpperCase(); // OCR content is in uppercase
+    expect(userNameInTable, "User name in ID OCR table matches name from sessions table").toBe(
+      expectedUserName,
+    );
   });
 });
