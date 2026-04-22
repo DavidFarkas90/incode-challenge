@@ -12,9 +12,8 @@ export class BasePage {
     this.navigationLinks = (link: string) => this.sideNavigation.getByRole("link", { name: link });
   }
 
-  async isMainNavigationVisible(): Promise<boolean> {
-    await this.sideNavigation.waitFor({ state: "visible" });
-    return true;
+  async getSideNavigation(): Promise<Locator> {
+    return this.sideNavigation;
   }
 
   async navigateTo(link: string) {

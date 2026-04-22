@@ -23,9 +23,8 @@ export class SessionsPage {
     return await this.sessionTitle.innerText();
   }
 
-  async isSessionsTableVisible(): Promise<boolean> {
-    await this.sessionsTable.waitFor({ state: "visible" });
-    return true;
+  async getSessionsTable(): Promise<Locator> {
+    return this.sessionsTable;
   }
 
   async getSessionRowByName(name: string): Promise<Locator> {
