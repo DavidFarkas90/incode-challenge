@@ -1,9 +1,15 @@
 export const Labels = {
+  ACTIONS: "Actions",
+  ADD_FACE_TO_DATABASE: "Add face to database",
   FLOWS: "Flows",
+  FULL_NAME_OCR: "Full Name (OCR)",
+  ID_OCR: "ID OCR",
+  ID_VERIFICATION: "ID Verification",
   IDENTITIES: "Identities",
   LOG_IN: "Log In",
+  MAIN_NAVIGATION: "Main navigation",
   PASSWORD: "password",
+  REVIEW_SESSIONS: "Review sessions",
   SESSION_INFO: "Session Info",
   SESSIONS: "Sessions",
-  MAIN_NAVIGATION: "Main navigation",
 };
