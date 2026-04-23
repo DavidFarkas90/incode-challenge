@@ -16,7 +16,7 @@ test("assert user name in single session page", async ({ page }) => {
     expect(await basePage.getSideNavigation()).toBeVisible();
 
     await basePage.navigateTo(Labels.SESSIONS);
-    await expect(page).toHaveURL(PAGE_URLS.SESSIONS);
+    await expect(page).toHaveURL(PAGE_URLS.SESSIONS());
     sessionsPage = new SessionsPage(page);
   });
 
