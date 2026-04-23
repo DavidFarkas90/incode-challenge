@@ -13,6 +13,7 @@ let flowsPage: FlowsPage;
 let newFlowPage: NewFlowPage;
 let flowId = "";
 const newFlowName = `Incode Flow_${Math.floor(Math.random() * 1000)}`; // To ensure unique flow name for each test run
+const searchPhrase = "ID";
 const expectedModuleCount = 2;
 
 test.afterEach("Cleanup created flow", async ({ request }) => {
@@ -49,9 +50,9 @@ test("create new flow and verify in flows table", async ({ page }) => {
 
   await test.step("Add ID Capture module to the flow", async () => {
     expect(await newFlowPage.isSaveChangesButtonDisabled()).toBe(true);
-    await newFlowPage.hoverOverModuleRow(Modules.ID_CAPTURE);
-    await expect(await newFlowPage.getAddModuleButton()).toBeVisible();
-    await newFlowPage.clickOnAddModuleButton();
+    // Add modules using the search input
+    await newFlowPage.searchForModule(searchPhrase);
+    await newFlowPage.addModuleUsingHover(Modules.ID_CAPTURE);
     await expect(await newFlowPage.getAddedModuleByName(Modules.ID_CAPTURE)).toHaveCount(
       expectedModuleCount,
     );
@@ -59,20 +60,15 @@ test("create new flow and verify in flows table", async ({ page }) => {
   });
 
   await test.step("Add ID Validation module to the flow", async () => {
-    await newFlowPage.hoverOverModuleRow(Modules.ID_VALIDATION);
-    await expect(await newFlowPage.getAddModuleButton()).toBeVisible();
-    await newFlowPage.clickOnAddModuleButton();
+    await newFlowPage.addModuleUsingHover(Modules.ID_VALIDATION);
     await expect(await newFlowPage.getAddedModuleByName(Modules.ID_VALIDATION)).toHaveCount(
       expectedModuleCount,
     );
+    await newFlowPage.clearSearchModuleInput();
   });
 
   await test.step("Add Face Capture module to the flow", async () => {
-    await newFlowPage.searchForModule(Modules.FACE_CAPTURE);
-    await newFlowPage.hoverOverSearchedModule(Modules.FACE_CAPTURE);
-    await expect(await newFlowPage.getAddModuleButton()).toBeVisible();
-    await newFlowPage.clickOnAddModuleButton();
-    await newFlowPage.clearSearchModuleInput();
+    await newFlowPage.addModuleUsingHover(Modules.FACE_CAPTURE);
     await expect(await newFlowPage.getAddedModuleByName(Modules.FACE_CAPTURE)).toHaveCount(
       expectedModuleCount,
     );

@@ -178,4 +178,10 @@ export class NewFlowPage {
   async toggleLiveFlow(): Promise<void> {
     this.liveFlowToggle.click();
   }
+
+  async addModuleUsingHover(moduleName: string): Promise<void> {
+    await this.hoverOverModuleRow(moduleName);
+    await this.addModuleButton.waitFor({ state: "visible" });
+    await this.clickOnAddModuleButton();
+  }
 }
