@@ -26,3 +26,10 @@ export async function deleteFlowsById(request: APIRequestContext, flowId: string
   });
   expect(response.status()).toBe(StatusCodes.SUCCESS);
 }
+
+export async function logout(request: APIRequestContext): Promise<void> {
+  const response = await request.post(API_URLS.LOGOUT(), {
+    headers: buildHeaders(),
+  });
+  expect(response.status()).toBe(StatusCodes.SUCCESS);
+}

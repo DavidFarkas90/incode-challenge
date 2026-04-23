@@ -2,10 +2,10 @@ import "dotenv/config";
 import { test as base } from "@playwright/test";
 import { LoginPage } from "../pages/login/login.page";
 import { PAGE_URLS } from "../constants/urls";
-import { setApiCredentials } from "../helpers/api-helpers";
+import { setApiCredentials, logout } from "../helpers/api-helpers";
 
 export const test = base.extend({
-  page: async ({ page }, use) => {
+  page: async ({ page, request }, use) => {
     await page.goto(PAGE_URLS.LOGIN());
     const loginPage = new LoginPage(page);
     await loginPage.login(process.env.USER_EMAIL!, process.env.USER_PASSWORD!);
@@ -19,6 +19,8 @@ export const test = base.extend({
     setApiCredentials(token ?? "", apiKey ?? "");
 
     await use(page);
+
+    await logout(request);
   },
 });
 
