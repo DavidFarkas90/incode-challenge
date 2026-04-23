@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { test as base } from "@playwright/test";
-import { LoginPage } from "./pages/login/login.page";
-import { PAGE_URLS } from "./constants/page-urls";
+import { LoginPage } from "../pages/login/login.page";
+import { PAGE_URLS } from "../constants/page-urls";
 
 export const test = base.extend({
   page: async ({ page }, use) => {
