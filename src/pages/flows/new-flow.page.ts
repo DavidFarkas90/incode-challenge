@@ -1,6 +1,7 @@
 import { Locator, Page } from "@playwright/test";
 import { Labels } from "../../constants/labels";
 import strict from "node:assert/strict";
+import { FlowsPage } from "./flows.page";
 
 export class NewFlowPage {
   readonly page: Page;
@@ -11,6 +12,9 @@ export class NewFlowPage {
   readonly cancelButton: Locator;
   readonly saveButton: Locator;
   readonly saveChangesButton: Locator;
+  readonly liveFlowToggle: Locator;
+  readonly unsavedChangesNotification: Locator;
+  readonly backToFlowListButton: Locator;
   // Tabs
   readonly selectModulesTab: Locator;
   readonly settingsTab: Locator;
@@ -38,6 +42,9 @@ export class NewFlowPage {
     this.cancelButton = page.getByRole("button", { name: Labels.CANCEL });
     this.saveButton = page.getByRole("button", { name: Labels.SAVE, exact: true });
     this.saveChangesButton = page.getByRole("button", { name: Labels.SAVE_CHANGES, exact: true });
+    this.liveFlowToggle = page.getByRole("button", { name: Labels.LIVE_FLOW });
+    this.unsavedChangesNotification = page.getByText(Labels.UNSAVED_CHANGES);
+    this.backToFlowListButton = page.getByRole("button", { name: Labels.BACK_FLOW_LIST });
     this.detailsAndConfigurationButton = page.getByRole("button", {
       name: Labels.DETAILS_AND_CONFIGURATION,
     });
@@ -82,6 +89,19 @@ export class NewFlowPage {
   async getSaveChangesButton(): Promise<Locator> {
     return this.saveChangesButton;
   }
+
+  async getBackToFlowButton(): Promise<Locator> {
+    return this.backToFlowListButton;
+  }
+
+  async getLiveFlowToggle(): Promise<Locator> {
+    return this.liveFlowToggle;
+  }
+
+  async getUnsavedChangesNotification(): Promise<Locator> {
+    return this.unsavedChangesNotification;
+  }
+
   async getDetailsAndConfigurationButton(): Promise<Locator> {
     return this.detailsAndConfigurationButton;
   }
@@ -112,6 +132,11 @@ export class NewFlowPage {
 
   async clickOnSaveButton(): Promise<void> {
     await this.saveButton.click();
+  }
+
+  async clickOnBackToFlowListButton(): Promise<FlowsPage> {
+    await this.backToFlowListButton.click();
+    return new FlowsPage(this.page);
   }
 
   async clickOnDetailsAndConfigurationButton(): Promise<void> {
@@ -148,5 +173,9 @@ export class NewFlowPage {
 
   async isSaveChangesButtonDisabled(): Promise<boolean> {
     return await this.saveChangesButton.isDisabled();
+  }
+
+  async toggleLiveFlow(): Promise<void> {
+    this.liveFlowToggle.click();
   }
 }
