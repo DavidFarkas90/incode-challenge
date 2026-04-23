@@ -5,3 +5,7 @@ export const PAGE_URLS = {
   IDENTITIES: "https://demo-dashboard.incode.com/identities",
   SESSIONS: "https://demo-dashboard.incode.com/sessions",
 };
+
+export const API_URLS = {
+  API_BASE_URL: "https://demo-api.incodesmile.com",
+};

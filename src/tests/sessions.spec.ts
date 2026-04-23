@@ -1,5 +1,5 @@
 import { test, expect } from "../fixtures/fixtures";
-import { PAGE_URLS } from "../constants/page-urls";
+import { PAGE_URLS } from "../constants/urls";
 import { BasePage } from "../pages/base/base.page";
 import { Labels } from "../constants/labels";
 import { SessionsPage } from "../pages/sessions/sessions.page";
