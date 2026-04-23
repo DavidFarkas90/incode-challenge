@@ -1,0 +1,15 @@
+export const Modules = {
+  DATA_SHARING_CONSENT: "Data Sharing Consent",
+  ID_CAPTURE: "ID Capture",
+  ID_VALIDATION: "ID Validation",
+  REVIEW_OCR_DATA: "Review OCR data",
+  FACE_CAPTURE: "Face Capture",
+  FACE_MATCH: "Face Match",
+  ELECTRONIC_SIGNATURE: "Electronic Signature",
+  ELECTRONIC_SIGNATURE_ADVANCED: "Electronic Signature Advanced",
+  FORMS_AND_DATA_ENTRY: "Forms and Data Entry",
+  NFC_SCAN: "NFC Scan",
+  FACE_ONBOARDING: "Face Onboarding",
+  FIELD_COMPARISON: "Field Comparison",
+  SHOW_RESULTS: "Show Results",
+};
