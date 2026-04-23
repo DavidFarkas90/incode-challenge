@@ -9,7 +9,10 @@ export class BasePage {
   constructor(page: Page) {
     this.page = page;
     this.sideNavigation = page.getByRole("navigation", { name: Labels.MAIN_NAVIGATION });
-    this.navigationLinks = (link: string) => this.sideNavigation.getByRole("link", { name: link });
+    this.navigationLinks = (link: string) =>
+      this.sideNavigation
+        .getByRole("link")
+        .filter({ hasText: new RegExp(`^\\s*${link}\\s*$`) });
   }
 
   async getSideNavigation(): Promise<Locator> {
