@@ -1,4 +1,4 @@
-import { test, expect } from "../fixtures";
+import { test, expect } from "../fixtures/fixtures";
 import { PAGE_URLS } from "../constants/page-urls";
 import { BasePage } from "../pages/base/base.page";
 import { Labels } from "../constants/labels";
