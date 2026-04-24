@@ -8,6 +8,7 @@ export const Labels = {
   CLOSE: "Close",
   DETAILS_AND_CONFIGURATION: "Details and configuration",
   EDIT_FLOW_NAME: "Edit flow name",
+  FACE_IN_DATABASE: "Face in database",
   FLOW_NAME: "Flow name",
   FLOW_SAVED_CORRECTLY: "Flow saved correctly.",
   FLOWS: "Flows",

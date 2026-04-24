@@ -3,10 +3,11 @@ import { Labels } from "../../constants/labels";
 
 export class SingleSessionPage {
   readonly page: Page;
+  // Header
   readonly sessionInfoTitle: Locator;
   readonly addFaceToDatabaseButton: Locator;
-  readonly tooltipMenuButton: Locator;
-  readonly idVerificationTable: Locator;
+  readonly faceInDatabaseLabel: Locator;
+  // ID OCR table and content
   readonly idOCRTable: Locator;
   readonly idOCRContent: Locator;
   readonly tableCellContent: Locator;
@@ -15,8 +16,7 @@ export class SingleSessionPage {
     this.page = page;
     this.sessionInfoTitle = page.getByText(Labels.SESSION_INFO);
     this.addFaceToDatabaseButton = page.getByTestId("button-icon-iconBtnAdd");
-    this.tooltipMenuButton = page.getByTestId("tooltip-wrapper");
-    this.idVerificationTable = page.getByText(Labels.ID_VERIFICATION);
+    this.faceInDatabaseLabel = page.locator(".status-set", { hasText: Labels.FACE_IN_DATABASE });
     this.idOCRTable = page.getByText(Labels.ID_OCR);
     this.idOCRContent = page.locator(".id-info .dinamic-field");
     this.tableCellContent = page.locator(".content");
@@ -26,29 +26,32 @@ export class SingleSessionPage {
     return await this.sessionInfoTitle.innerText();
   }
 
-  async isAddFaceToDatabaseButtonVisible(): Promise<boolean> {
-    await this.addFaceToDatabaseButton.waitFor({ state: "visible" });
-    return true;
+  async getAddToFaceButton(): Promise<Locator> {
+    return this.addFaceToDatabaseButton;
   }
 
-  async isTooltipMenuButtonVisible(): Promise<boolean> {
-    await this.tooltipMenuButton.waitFor({ state: "visible" });
-    return true;
+  async getFaceInDatabaseLabel(): Promise<Locator> {
+    return this.faceInDatabaseLabel;
   }
 
-  async isIdVerificationTableVisible(): Promise<boolean> {
-    await this.idVerificationTable.waitFor({ state: "visible" });
-    return true;
+  async getIdOCRTable(): Promise<Locator> {
+    return this.idOCRTable;
+  }
+
+  async getIdOCRContent(): Promise<Locator> {
+    return this.idOCRContent;
   }
 
   async isIdOCRTableVisible(): Promise<boolean> {
-    await this.idOCRTable.scrollIntoViewIfNeeded();
-    await this.idOCRTable.waitFor({ state: "visible" });
+    await (await this.getIdOCRTable()).scrollIntoViewIfNeeded();
+    await (await this.getIdOCRTable()).waitFor({ state: "visible" });
     return true;
   }
 
   async getIdOCRContentByLabel(text: string): Promise<string> {
-    return await this.idOCRContent
+    return await (
+      await this.getIdOCRContent()
+    )
       .filter({ has: this.page.getByRole("heading", { name: text }) })
       .locator(".content")
       .innerText();
