@@ -23,9 +23,7 @@ export class SingleSessionPage {
     this.hamburgerMenuIcon = page.getByRole("button", { name: "menu icon" });
     this.menuList = page.locator("ul.menu-list__list");
     this.menuListItem = (menuItem: string) =>
-      page
-        .locator("ul.menu-list__list")
-        .filter({ has: page.getByRole("listitem", { name: menuItem }) });
+      page.locator("ul.menu-list__list", { hasText: menuItem });
     this.idOCRTable = page.getByText(Labels.ID_OCR);
     this.idOCRContent = page.locator(".id-info .dinamic-field");
     this.tableCellContent = page.locator(".content");
@@ -77,12 +75,12 @@ export class SingleSessionPage {
   }
 
   async clickOnHamburgerMenu(): Promise<Locator> {
-    // TODO: Update return type
     await this.hamburgerMenuIcon.click();
     return this.menuList;
   }
 
   async clickOnMenuItem(menuItem: string): Promise<void> {
+    // TODO: Update return type
     await this.menuListItem(menuItem).click();
   }
 
