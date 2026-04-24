@@ -33,3 +33,14 @@ export async function logout(request: APIRequestContext): Promise<void> {
   });
   expect(response.status()).toBe(StatusCodes.SUCCESS);
 }
+
+export async function getValidatedSessionNames(request: APIRequestContext): Promise<string[]> {
+  const response = await request.post(API_URLS.VALIDATION_RESULTS_SEARCH_V2(), {
+    headers: buildHeaders(),
+    params: { offset: 0, limit: 20, avoidCounting: true },
+    data: {},
+  });
+  expect(response.status()).toBe(StatusCodes.SUCCESS);
+  const body = await response.json();
+  return body.interviews.map((interview: { name: string }) => interview.name).filter(Boolean);
+}

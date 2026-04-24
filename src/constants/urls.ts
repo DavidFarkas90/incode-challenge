@@ -11,4 +11,5 @@ export const API_URLS = {
   FLOW_BASE_URL: () => `${API_URLS.API_BASE_URL}/omni/flow`,
   DELETE_FLOW_BY_ID: (flowId: string) => `${API_URLS.FLOW_BASE_URL()}/${flowId}`,
   LOGOUT: () => `${API_URLS.API_BASE_URL}/executive/logout`,
+  VALIDATION_RESULTS_SEARCH_V2: () => `${API_URLS.API_BASE_URL}/omni/validation-results/search/v2`,
 };
