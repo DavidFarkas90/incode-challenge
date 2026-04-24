@@ -18,6 +18,7 @@ export const Labels = {
   ID_OCR: "ID OCR",
   ID_VERIFICATION: "ID Verification",
   IDENTITIES: "Identities",
+  IDENTITY_CONFIRMED: "Identity confirmed",
   IMPORT: "Import",
   LIVE_FLOW: "Live flow",
   LOG_IN: "Log In",
