@@ -1,5 +1,6 @@
 import { Locator, Page } from "@playwright/test";
 import { Labels } from "../../constants/labels";
+import { SingleIdentityPage } from "../identities/single-identity.page";
 
 export class SingleSessionPage {
   readonly page: Page;
@@ -80,8 +81,12 @@ export class SingleSessionPage {
   }
 
   async clickOnMenuItem(menuItem: string): Promise<void> {
-    // TODO: Update return type
     await this.menuListItem(menuItem).click();
+  }
+
+  async clickOnGoToIdentityMenuItem(): Promise<SingleIdentityPage> {
+    await this.menuListItem(Labels.GO_TO_IDENTITY).click();
+    return new SingleIdentityPage(this.page);
   }
 
   async isAddFaceToDatabaseDisabled(): Promise<boolean> {

@@ -34,8 +34,7 @@ test("Assert user name in single session page", async ({ page, request }) => {
   });
 
   await test.step("Navigate to single session page and verify session info title", async () => {
-    await sessionsPage.clickOnSessionRowByName(randomUserName);
-    singleSessionPage = new SingleSessionPage(page);
+    singleSessionPage = await sessionsPage.clickOnSessionRowByName(randomUserName);
     const sessionTitle = await singleSessionPage.getSessionInfoTitle();
     expect(sessionTitle).toContain(Labels.SESSION_INFO);
   });

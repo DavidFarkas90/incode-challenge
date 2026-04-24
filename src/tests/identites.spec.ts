@@ -41,8 +41,7 @@ test.beforeEach(
       randomUserName = getRandomElement(sessionNames);
       userIdentity = randomUserName.toLowerCase(); // On single identity page it's in lowercase
       userIdentityTitleCase = toTitleCase(randomUserName); // In identity table it's in title case
-      await sessionsPage.clickOnSessionRowByName(randomUserName);
-      singleSessionPage = new SingleSessionPage(page);
+      singleSessionPage = await sessionsPage.clickOnSessionRowByName(randomUserName);
     });
   },
 );
@@ -74,8 +73,7 @@ test("Add face to database and verify it on Identities page", async ({ page }) =
   await test.step("Navigate to Identities page", async () => {
     await singleSessionPage.clickOnHamburgerMenu();
     await expect(await singleSessionPage.getMenuList()).toBeVisible();
-    await singleSessionPage.clickOnMenuItem(Labels.GO_TO_IDENTITY);
-    singleIdentityPage = new SingleIdentityPage(page);
+    singleIdentityPage = await singleSessionPage.clickOnGoToIdentityMenuItem();
   });
 
   await test.step("Verify the single identity data", async () => {
@@ -86,8 +84,7 @@ test("Add face to database and verify it on Identities page", async ({ page }) =
   });
 
   await test.step("Navigate to Identities table, and verify the identity is shown in the table", async () => {
-    await singleIdentityPage.clickBackToIdentitiesBreadCrumb();
-    identitiesPage = new IdentitiesPage(page);
+    identitiesPage = await singleIdentityPage.clickBackToIdentitiesBreadCrumb();
     await expect(await identitiesPage.getIdentitiesTitle()).toBeVisible();
     await expect(
       await identitiesPage.getIdentitiesRowByParams(userIdentityTitleCase, identityId),

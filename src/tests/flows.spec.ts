@@ -33,8 +33,7 @@ test("Create new active flow and verify in flows table", async ({ page }) => {
   });
 
   await test.step("Click on add new flow button", async () => {
-    await flowsPage.clickOnAddNewFlowButton();
-    newFlowPage = new NewFlowPage(page);
+    newFlowPage = await flowsPage.clickOnAddNewFlowButton();
     await expect(await newFlowPage.getFlowName(Labels.NEW_FLOW)).toBeVisible();
   });
 
