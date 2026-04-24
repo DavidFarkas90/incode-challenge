@@ -1,5 +1,6 @@
 import { test, expect } from "../fixtures/fixtures";
 import { getValidatedSessionNames } from "../helpers/api-helpers";
+import { getRandomElement } from "../helpers/common-helpers";
 import { PAGE_URLS } from "../constants/urls";
 import { BasePage } from "../pages/base/base.page";
 import { Labels } from "../constants/labels";
@@ -23,7 +24,7 @@ test("assert user name in single session page", async ({ page, request }) => {
     sessionsPage = new SessionsPage(page);
     // Get all validated session names via API
     sessionNames = await getValidatedSessionNames(request);
-    randomUserName = sessionNames[Math.floor(Math.random() * sessionNames.length)];
+    randomUserName = getRandomElement(sessionNames);
   });
 
   await test.step("Verify sessions table and user session row is visible", async () => {

@@ -1,4 +1,5 @@
 import { test, expect } from "../fixtures/fixtures";
+import { generateRandomNumbers } from "../helpers/common-helpers";
 import { PAGE_URLS, API_URLS } from "../constants/urls";
 import { BasePage } from "../pages/base/base.page";
 import { FlowsPage } from "../pages/flows/flows.page";
@@ -11,10 +12,10 @@ import { deleteFlowsById } from "../helpers/api-helpers";
 let basePage: BasePage;
 let flowsPage: FlowsPage;
 let newFlowPage: NewFlowPage;
-let flowId = "";
-const newFlowName = `Incode Flow_${Math.floor(Math.random() * 1000)}`; // To ensure unique flow name for each test run
-const searchPhrase = "ID";
-const expectedModuleCount = 2;
+let flowId: string = "";
+const newFlowName: string = `Incode Flow_${generateRandomNumbers()}`; // To ensure unique flow name for each test run
+const searchPhrase: string = "ID";
+const expectedModuleCount: number = 2;
 
 test.afterEach("Cleanup created flow", async ({ request }) => {
   if (flowId) {
