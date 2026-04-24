@@ -24,7 +24,7 @@ test.afterEach("Cleanup created flow", async ({ request }) => {
   }
 });
 
-test("create new flow and verify in flows table", async ({ page }) => {
+test("Create new active flow and verify in flows table", async ({ page }) => {
   await test.step("Navigate to Flows page", async () => {
     basePage = new BasePage(page);
     expect(await basePage.getSideNavigation()).toBeVisible();

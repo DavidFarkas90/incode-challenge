@@ -12,7 +12,7 @@ let basePage: BasePage;
 let sessionNames: string[] = [];
 let randomUserName: string;
 
-test("assert user name in single session page", async ({ page, request }) => {
+test("Assert user name in single session page", async ({ page, request }) => {
   await test.step("Navigate to Sessions page", async () => {
     basePage = new BasePage(page);
     expect(await basePage.getSideNavigation()).toBeVisible();
