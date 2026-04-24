@@ -1,9 +1,9 @@
 export const PAGE_URLS = {
-  HOME: "https://demo-dashboard.incode.com",
-  LOGIN: () => `${PAGE_URLS.HOME}/log-in`,
-  FLOWS: () => `${PAGE_URLS.HOME}/flows`,
-  IDENTITIES: () => `${PAGE_URLS.HOME}/identities`,
-  SESSIONS: () => `${PAGE_URLS.HOME}/sessions`,
+  HOME: "/",
+  LOGIN: () => "/log-in",
+  FLOWS: () => "/flows",
+  IDENTITIES: () => "/identities",
+  SESSIONS: () => "/sessions",
 };
 
 export const API_URLS = {

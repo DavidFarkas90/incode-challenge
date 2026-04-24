@@ -1,5 +1,4 @@
 import { Locator, Page } from "@playwright/test";
-import { PAGE_URLS } from "../../constants/urls";
 import { Labels } from "../../constants/labels";
 
 export class LoginPage {
