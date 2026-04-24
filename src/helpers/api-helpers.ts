@@ -25,6 +25,25 @@ export async function deleteFlowsById(request: APIRequestContext, flowId: string
     headers: buildHeaders(),
   });
   expect(response.status()).toBe(StatusCodes.SUCCESS);
+  expect((await response.json()).success).toBe(true);
+}
+
+export async function deleteCustomerIdentitiesById(
+  request: APIRequestContext,
+  customerId: string,
+): Promise<void> {
+  const response = await request.delete(API_URLS.DELETE_CUSTOMER_IDENTITY_BY_ID(customerId), {
+    headers: buildHeaders(),
+  });
+  expect(response.status()).toBe(StatusCodes.SUCCESS);
+  expect((await response.json()).success).toBe(true);
+}
+
+export async function deleteAllExistingIdentities(request: APIRequestContext): Promise<void> {
+  const identityIdsToDelete: string[] = await getAllIdentityIds(request);
+  await identityIdsToDelete.forEach((identityId) => {
+    deleteCustomerIdentitiesById(request, identityId);
+  });
 }
 
 export async function logout(request: APIRequestContext): Promise<void> {
@@ -43,4 +62,15 @@ export async function getValidatedSessionNames(request: APIRequestContext): Prom
   expect(response.status()).toBe(StatusCodes.SUCCESS);
   const body = await response.json();
   return body.interviews.map((interview: { name: string }) => interview.name).filter(Boolean);
+}
+
+export async function getAllIdentityIds(request: APIRequestContext): Promise<string[]> {
+  const response = await request.post(API_URLS.IDENTITIES_SEARCH_V2(), {
+    headers: buildHeaders(),
+    params: { offset: 0, limit: 20, avoidCounting: true },
+    data: {},
+  });
+  expect(response.status()).toBe(StatusCodes.SUCCESS);
+  const body = await response.json();
+  return body.identities.map((identity: { _id: string }) => identity._id).filter(Boolean);
 }
