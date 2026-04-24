@@ -7,21 +7,18 @@ import { Labels } from "../constants/labels";
 import { StatusCodes } from "../constants/status-codes";
 import { NewFlowPage } from "../pages/flows/new-flow.page";
 import { Modules } from "../constants/modules";
-import { deleteFlowsById } from "../helpers/api-helpers";
+import { deleteFlowsByIds } from "../helpers/api-helpers";
 
 let basePage: BasePage;
 let flowsPage: FlowsPage;
 let newFlowPage: NewFlowPage;
-let flowId: string = "";
-const newFlowName: string = `Incode Flow_${generateRandomNumbers()}`; // To ensure unique flow name for each test run
+const flowPrefix = "Incode Flow";
+const newFlowName: string = `${flowPrefix}_${generateRandomNumbers()}`; // To ensure unique flow name for each test run
 const searchPhrase: string = "ID";
 const expectedModuleCount: number = 2;
 
-test.afterEach("Cleanup created flow", async ({ request }) => {
-  if (flowId) {
-    await deleteFlowsById(request, flowId);
-    flowId = "";
-  }
+test.beforeEach("Cleanup created flows", async ({ page, request }) => {
+  await deleteFlowsByIds(request, flowPrefix);
 });
 
 test("Create new active flow and verify in flows table", async ({ page }) => {
@@ -76,17 +73,7 @@ test("Create new active flow and verify in flows table", async ({ page }) => {
   });
 
   await test.step("Save changes to new flow", async () => {
-    // Intercept request to save flowId for cleanup
-    const responsePromise = page.waitForResponse(
-      (res) => res.url().startsWith(API_URLS.FLOW_BASE_URL()) && res.request().method() === "POST",
-    );
     await newFlowPage.clickOnSaveChangesButton();
-    // Extract created flowId
-    const response = await responsePromise;
-    await expect(response.status()).toEqual(StatusCodes.SUCCESS);
-    const body = await response.json();
-    flowId = body.flowId;
-
     expect(await basePage.getNotificationToast(Labels.FLOW_SAVED_CORRECTLY)).toBeVisible();
     await basePage.clickCloseNotificationButton();
     expect(await newFlowPage.isSaveChangesButtonDisabled()).toBe(true);

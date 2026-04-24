@@ -46,6 +46,16 @@ export async function deleteAllExistingIdentities(request: APIRequestContext): P
   });
 }
 
+export async function deleteFlowsByIds(
+  request: APIRequestContext,
+  flowName: string,
+): Promise<void> {
+  const flowIdsToDelete: string[] = await getFlowsIdsByName(request, flowName);
+  await flowIdsToDelete.forEach((flowId) => {
+    deleteFlowsById(request, flowId);
+  });
+}
+
 export async function logout(request: APIRequestContext): Promise<void> {
   const response = await request.post(API_URLS.LOGOUT(), {
     headers: buildHeaders(),
@@ -73,4 +83,19 @@ export async function getAllIdentityIds(request: APIRequestContext): Promise<str
   expect(response.status()).toBe(StatusCodes.SUCCESS);
   const body = await response.json();
   return body.identities.map((identity: { _id: string }) => identity._id).filter(Boolean);
+}
+
+export async function getFlowsIdsByName(
+  request: APIRequestContext,
+  name: string,
+): Promise<string[]> {
+  const response = await request.get(API_URLS.FLOWS_LIST(), {
+    headers: buildHeaders(),
+  });
+  expect(response.status()).toBe(StatusCodes.SUCCESS);
+  const body = await response.json();
+  return body.content
+    .filter((flow: { name: string; _id: string }) => flow.name.includes(name))
+    .map((flow: { _id: string }) => flow._id)
+    .filter(Boolean);
 }
