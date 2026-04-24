@@ -4,7 +4,6 @@ import { StatusCodes } from "../constants/status-codes";
 import { getValidatedSessionNames, deleteAllExistingIdentities } from "../helpers/api-helpers";
 import { getRandomElement, toTitleCase } from "../helpers/common-helpers";
 import { PAGE_URLS, API_URLS } from "../constants/urls";
-import { BasePage } from "../pages/base/base.page";
 import { SessionsPage } from "../pages/sessions/sessions.page";
 import { SingleSessionPage } from "../pages/sessions/single-session.page";
 import { IdentitiesPage } from "../pages/identities/identities.page";
@@ -14,7 +13,6 @@ let sessionsPage: SessionsPage;
 let singleSessionPage: SingleSessionPage;
 let singleIdentityPage: SingleIdentityPage;
 let identitiesPage: IdentitiesPage;
-let basePage: BasePage;
 let sessionNames: string[] = [];
 let randomUserName: string;
 let userIdentity: string;
@@ -23,15 +21,12 @@ let identityId: string;
 
 test.beforeEach(
   "Precondition: cleanup existing data, and navigate to page",
-  async ({ page, request }) => {
+  async ({ page, request, basePage }) => {
     await test.step("Cleanup existing identities", async () => {
       await deleteAllExistingIdentities(request);
     });
 
     await test.step("Navigate to Sessions > Single session page", async () => {
-      basePage = new BasePage(page);
-      expect(await basePage.getSideNavigation()).toBeVisible();
-
       await basePage.navigateTo(Labels.SESSIONS);
       await expect(page).toHaveURL(PAGE_URLS.SESSIONS());
 
@@ -46,7 +41,7 @@ test.beforeEach(
   },
 );
 
-test("Add face to database and verify it on Identities page", async ({ page }) => {
+test("Add face to database and verify it on Identities page", async ({ page, basePage }) => {
   await test.step("Verify the face is not added to database", async () => {
     await expect(await singleSessionPage.isAddFaceToDatabaseDisabled()).toEqual(false);
   });

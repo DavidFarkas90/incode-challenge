@@ -1,22 +1,17 @@
 import { test, expect } from "../fixtures/fixtures";
 import { getValidatedSessionNames } from "../helpers/api-helpers";
 import { PAGE_URLS } from "../constants/urls";
-import { BasePage } from "../pages/base/base.page";
 import { Labels } from "../constants/labels";
 import { SessionsPage } from "../pages/sessions/sessions.page";
 import { SingleSessionPage } from "../pages/sessions/single-session.page";
 
 let sessionsPage: SessionsPage;
 let singleSessionPage: SingleSessionPage;
-let basePage: BasePage;
 let sessionNames: string[] = [];
 let randomUserName: string;
 
-test("Assert user name in single session page", async ({ page, request }) => {
+test("Assert user name in single session page", async ({ page, request, basePage }) => {
   await test.step("Navigate to Sessions page", async () => {
-    basePage = new BasePage(page);
-    expect(await basePage.getSideNavigation()).toBeVisible();
-
     await basePage.navigateTo(Labels.SESSIONS);
     await expect(page).toHaveURL(PAGE_URLS.SESSIONS());
 

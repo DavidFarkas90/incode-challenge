@@ -1,10 +1,11 @@
 import "dotenv/config";
-import { test as base } from "@playwright/test";
+import { test as base, expect } from "@playwright/test";
 import { LoginPage } from "../pages/login/login.page";
+import { BasePage } from "../pages/base/base.page";
 import { PAGE_URLS } from "../constants/urls";
 import { setApiCredentials, logout } from "../helpers/api-helpers";
 
-export const test = base.extend({
+export const test = base.extend<{ basePage: BasePage }>({
   page: async ({ page, request }, use) => {
     await page.goto(PAGE_URLS.LOGIN());
     const loginPage = new LoginPage(page);
@@ -21,6 +22,11 @@ export const test = base.extend({
     await use(page);
 
     await logout(request);
+  },
+  basePage: async ({ page }, use) => {
+    const basePage = new BasePage(page);
+    expect(await basePage.getSideNavigation()).toBeVisible();
+    await use(basePage);
   },
 });
 
