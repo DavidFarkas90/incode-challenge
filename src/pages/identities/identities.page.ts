@@ -33,7 +33,7 @@ export class IdentitiesPage {
   }
 
   async getIdentitiesRowByParams(name: string, identity: string): Promise<Locator> {
-    return this.identitiesRow(name, identity);
+    return await this.identitiesRow(name, identity);
   }
 
   async clickOnMoreActionsButton(): Promise<void> {
