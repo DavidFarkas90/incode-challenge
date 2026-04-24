@@ -7,6 +7,7 @@
     "test": "npx playwright test",
     "test:flows": "npx playwright test src/tests/flows.spec.ts",
     "test:sessions": "npx playwright test src/tests/sessions.spec.ts",
+    "test:identities": "npx playwright test src/tests/identities.spec.ts",
     "open:report": "npx playwright show-report",
     "open:ui-mode": "npx playwright test --ui",
     "format": "prettier --write .",
