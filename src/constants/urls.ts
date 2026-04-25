@@ -1,9 +1,9 @@
 export const PAGE_URLS = {
   HOME: "/",
-  LOGIN: () => "/log-in",
-  FLOWS: () => "/flows",
-  IDENTITIES: () => "/identities",
-  SESSIONS: () => "/sessions",
+  LOGIN: "/log-in",
+  FLOWS: "/flows",
+  IDENTITIES: "/identities",
+  SESSIONS: "/sessions",
 };
 
 export const API_URLS = {
