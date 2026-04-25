@@ -7,7 +7,7 @@ import { setApiCredentials, logout } from "../helpers/api-helpers";
 
 export const test = base.extend<{ basePage: BasePage }>({
   page: async ({ page, request }, use) => {
-    await page.goto(PAGE_URLS.LOGIN());
+    await page.goto(PAGE_URLS.LOGIN);
     const loginPage = new LoginPage(page);
     await loginPage.login(process.env.USER_EMAIL!, process.env.USER_PASSWORD!);
     await page.waitForURL(PAGE_URLS.HOME);
@@ -25,7 +25,7 @@ export const test = base.extend<{ basePage: BasePage }>({
   },
   basePage: async ({ page }, use) => {
     const basePage = new BasePage(page);
-    expect(await basePage.getSideNavigation()).toBeVisible();
+    await expect(basePage.getSideNavigation()).toBeVisible();
     await use(basePage);
   },
 });

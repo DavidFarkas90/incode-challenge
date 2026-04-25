@@ -32,26 +32,24 @@ export class SingleSessionPage {
     return await this.sessionInfoTitle.innerText();
   }
 
-  async getFaceInDatabaseLabel(): Promise<Locator> {
+  getFaceInDatabaseLabel(): Locator {
     return this.faceInDatabaseLabel;
   }
 
-  async getMenuList(): Promise<Locator> {
+  getMenuList(): Locator {
     return this.menuList;
   }
 
-  async getIdOCRTable(): Promise<Locator> {
+  getIdOCRTable(): Locator {
     return this.idOCRTable;
   }
 
-  async getIdOCRContent(): Promise<Locator> {
+  getIdOCRContent(): Locator {
     return this.idOCRContent;
   }
 
   async getIdOCRContentByLabel(text: string): Promise<string> {
-    return await (
-      await this.getIdOCRContent()
-    )
+    return await this.getIdOCRContent()
       .filter({ has: this.page.getByRole("heading", { name: text }) })
       .locator(".content")
       .innerText();
@@ -61,9 +59,8 @@ export class SingleSessionPage {
     await this.addFaceToDatabaseButton.click();
   }
 
-  async clickOnHamburgerMenu(): Promise<Locator> {
+  async clickOnHamburgerMenu(): Promise<void> {
     await this.hamburgerMenuIcon.click();
-    return this.menuList;
   }
 
   async clickOnGoToIdentityMenuItem(): Promise<SingleIdentityPage> {
@@ -76,8 +73,8 @@ export class SingleSessionPage {
   }
 
   async isIdOCRTableVisible(): Promise<boolean> {
-    await (await this.getIdOCRTable()).scrollIntoViewIfNeeded();
-    await (await this.getIdOCRTable()).waitFor({ state: "visible" });
-    return true;
+    const idOCRTable = this.getIdOCRTable();
+    await idOCRTable.scrollIntoViewIfNeeded();
+    return await idOCRTable.isVisible();
   }
 }

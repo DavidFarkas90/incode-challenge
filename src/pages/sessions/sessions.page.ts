@@ -9,14 +9,14 @@ export class SessionsPage {
   constructor(page: Page) {
     this.page = page;
     this.sessionsTable = page.getByRole("table");
-    this.sessionTableRowByName = (name: string) => page.getByText(name);
+    this.sessionTableRowByName = (name: string) => page.getByRole("row").filter({ hasText: name });
   }
 
-  async getSessionsTable(): Promise<Locator> {
+  getSessionsTable(): Locator {
     return this.sessionsTable;
   }
 
-  async getSessionRowByName(name: string): Promise<Locator> {
+  getSessionRowByName(name: string): Locator {
     return this.sessionTableRowByName(name);
   }
 

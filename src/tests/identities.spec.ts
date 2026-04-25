@@ -28,7 +28,7 @@ test.beforeEach(
 
     await test.step("Navigate to Sessions > Single session page", async () => {
       await basePage.navigateTo(Labels.SESSIONS);
-      await expect(page).toHaveURL(PAGE_URLS.SESSIONS());
+      await expect(page).toHaveURL(PAGE_URLS.SESSIONS);
 
       sessionsPage = new SessionsPage(page);
       // Get all validated session names via API
@@ -56,10 +56,10 @@ test("Add face to database and verify it on Identities page", async ({ page, bas
         res.url().startsWith(API_URLS.ADD_FACE_TO_DATABASE()) && res.request().method() === "POST",
     );
     await singleSessionPage.clickAddFaceToDatabaseButton();
-    const toast = await basePage.getNotificationToast(Labels.FACE_ADDED_TO_DB);
+    const toast = basePage.getNotificationToast(Labels.FACE_ADDED_TO_DB);
     await expect(toast).toBeVisible();
 
-    await expect(await singleSessionPage.getFaceInDatabaseLabel()).toBeVisible();
+    await expect(singleSessionPage.getFaceInDatabaseLabel()).toBeVisible();
     // Extract created identityId
     const response = await responsePromise;
     await expect(response.status(), "Add face to database API call should return HTTP 200").toEqual(
@@ -72,22 +72,20 @@ test("Add face to database and verify it on Identities page", async ({ page, bas
 
   await test.step("Navigate to Identities page", async () => {
     await singleSessionPage.clickOnHamburgerMenu();
-    await expect(await singleSessionPage.getMenuList()).toBeVisible();
+    await expect(singleSessionPage.getMenuList()).toBeVisible();
     singleIdentityPage = await singleSessionPage.clickOnGoToIdentityMenuItem();
   });
 
   await test.step("Verify the single identity data", async () => {
-    await expect(
-      await singleIdentityPage.getSingleIdentityTitleByIdentity(userIdentity),
-    ).toBeVisible();
-    await expect(await singleIdentityPage.getIdentityConfirmedLabel()).toBeVisible();
+    await expect(singleIdentityPage.getSingleIdentityTitleByIdentity(userIdentity)).toBeVisible();
+    await expect(singleIdentityPage.getIdentityConfirmedLabel()).toBeVisible();
   });
 
   await test.step("Navigate to Identities table, and verify the identity is shown in the table", async () => {
     identitiesPage = await singleIdentityPage.clickBackToIdentitiesBreadCrumb();
-    await expect(await identitiesPage.getIdentitiesTitle()).toBeVisible();
+    await expect(identitiesPage.getIdentitiesTitle()).toBeVisible();
     await expect(
-      await identitiesPage.getIdentitiesRowByParams(userIdentityTitleCase, identityId),
+      identitiesPage.getIdentitiesRowByParams(userIdentityTitleCase, identityId),
       "Created identity should appear in the table with the correct name and UUID",
     ).toBeVisible();
   });

@@ -18,11 +18,11 @@ export class BasePage {
     this.closeToastNotification = page.getByRole("button", { name: Labels.CLOSE });
   }
 
-  async getSideNavigation(): Promise<Locator> {
+  getSideNavigation(): Locator {
     return this.sideNavigation;
   }
 
-  async getNotificationToast(notificationText: string): Promise<Locator> {
+  getNotificationToast(notificationText: string): Locator {
     return this.notificationToast(notificationText);
   }
 

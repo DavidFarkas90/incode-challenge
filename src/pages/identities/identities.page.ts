@@ -16,11 +16,11 @@ export class IdentitiesPage {
         .filter({ has: page.getByRole("cell", { name: identity, exact: true }) });
   }
 
-  async getIdentitiesTitle(): Promise<Locator> {
-    return await this.identitiesTitle;
+  getIdentitiesTitle(): Locator {
+    return this.identitiesTitle;
   }
 
-  async getIdentitiesRowByParams(name: string, identity: string): Promise<Locator> {
-    return await this.identitiesRow(name, identity);
+  getIdentitiesRowByParams(name: string, identity: string): Locator {
+    return this.identitiesRow(name, identity);
   }
 }

@@ -1,6 +1,6 @@
 import { test, expect } from "../fixtures/fixtures";
 import { generateRandomNumbers } from "../helpers/common-helpers";
-import { PAGE_URLS, API_URLS } from "../constants/urls";
+import { PAGE_URLS } from "../constants/urls";
 import { FlowsPage } from "../pages/flows/flows.page";
 import { Labels } from "../constants/labels";
 import { NewFlowPage } from "../pages/flows/new-flow.page";
@@ -21,7 +21,7 @@ test.beforeEach("Cleanup created flows", async ({ page: _page, request }) => {
 test("Create new active flow and verify in flows table", async ({ page, basePage }) => {
   await test.step("Navigate to Flows page", async () => {
     await basePage.navigateTo(Labels.FLOWS);
-    await expect(page).toHaveURL(PAGE_URLS.FLOWS());
+    await expect(page).toHaveURL(PAGE_URLS.FLOWS);
 
     flowsPage = new FlowsPage(page);
     expect(
@@ -32,15 +32,15 @@ test("Create new active flow and verify in flows table", async ({ page, basePage
 
   await test.step("Click on add new flow button", async () => {
     newFlowPage = await flowsPage.clickOnAddNewFlowButton();
-    await expect(await newFlowPage.getFlowName(Labels.NEW_FLOW)).toBeVisible();
+    await expect(newFlowPage.getFlowName(Labels.NEW_FLOW)).toBeVisible();
   });
 
   await test.step("Enter new flow name and save name", async () => {
     await newFlowPage.clickOnEditFlowNameButton();
-    expect(await newFlowPage.getFlowNameInput()).toBeVisible();
+    await expect(newFlowPage.getFlowNameInput()).toBeVisible();
     await newFlowPage.enterFlowName(newFlowName);
     await newFlowPage.clickOnSaveButton();
-    await expect(await newFlowPage.getFlowName(newFlowName)).toBeVisible();
+    await expect(newFlowPage.getFlowName(newFlowName)).toBeVisible();
   });
 
   await test.step("Add ID Capture module to the flow", async () => {
@@ -52,7 +52,7 @@ test("Create new active flow and verify in flows table", async ({ page, basePage
     await newFlowPage.searchForModule(searchPhrase);
     await newFlowPage.addModuleUsingHover(Modules.ID_CAPTURE);
     await expect(
-      await newFlowPage.getAddedModuleByName(Modules.ID_CAPTURE),
+      newFlowPage.getAddedModuleByName(Modules.ID_CAPTURE),
       "ID Capture module should appear in both the module list and the flow preview",
     ).toHaveCount(expectedModuleCount);
     expect(
@@ -64,7 +64,7 @@ test("Create new active flow and verify in flows table", async ({ page, basePage
   await test.step("Add ID Validation module to the flow", async () => {
     await newFlowPage.addModuleUsingHover(Modules.ID_VALIDATION);
     await expect(
-      await newFlowPage.getAddedModuleByName(Modules.ID_VALIDATION),
+      newFlowPage.getAddedModuleByName(Modules.ID_VALIDATION),
       "ID Validation module should appear in both the module list and the flow preview",
     ).toHaveCount(expectedModuleCount);
     await newFlowPage.clearSearchModuleInput();
@@ -73,14 +73,14 @@ test("Create new active flow and verify in flows table", async ({ page, basePage
   await test.step("Add Face Capture module to the flow", async () => {
     await newFlowPage.addModuleUsingHover(Modules.FACE_CAPTURE);
     await expect(
-      await newFlowPage.getAddedModuleByName(Modules.FACE_CAPTURE),
+      newFlowPage.getAddedModuleByName(Modules.FACE_CAPTURE),
       "Face Capture module should appear in both the module list and the flow preview",
     ).toHaveCount(expectedModuleCount);
   });
 
   await test.step("Save changes to new flow", async () => {
     await newFlowPage.clickOnSaveChangesButton();
-    expect(await basePage.getNotificationToast(Labels.FLOW_SAVED_CORRECTLY)).toBeVisible();
+    await expect(basePage.getNotificationToast(Labels.FLOW_SAVED_CORRECTLY)).toBeVisible();
     await basePage.clickCloseNotificationButton();
     expect(
       await newFlowPage.isSaveChangesButtonDisabled(),
@@ -90,20 +90,20 @@ test("Create new active flow and verify in flows table", async ({ page, basePage
 
   await test.step("Update created flow to live flow", async () => {
     await newFlowPage.toggleLiveFlow();
-    await expect(await newFlowPage.getUnsavedChangesNotification()).toBeVisible();
+    await expect(newFlowPage.getUnsavedChangesNotification()).toBeVisible();
     expect(
       await newFlowPage.isSaveChangesButtonDisabled(),
       "Save Changes button should be enabled after toggling live flow",
     ).toBe(false);
     await newFlowPage.clickOnSaveChangesButton();
-    expect(await basePage.getNotificationToast(Labels.FLOW_SAVED_CORRECTLY)).toBeVisible();
+    await expect(basePage.getNotificationToast(Labels.FLOW_SAVED_CORRECTLY)).toBeVisible();
     await basePage.clickCloseNotificationButton();
   });
 
   await test.step("Get back to flows page and verify new flow is visible in the table", async () => {
     await newFlowPage.clickOnBackToFlowListButton();
-    expect(await flowsPage.getFlowsTable()).toBeVisible();
-    const newFlowRow = await flowsPage.getFlowRowByParams(newFlowName, Labels.ACTIVE);
+    await expect(flowsPage.getFlowsTable()).toBeVisible();
+    const newFlowRow = flowsPage.getFlowRowByParams(newFlowName, Labels.ACTIVE);
     await expect(newFlowRow).toBeVisible();
   });
 });

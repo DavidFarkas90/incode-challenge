@@ -50,19 +50,19 @@ export class NewFlowPage {
     this.moduleRow = (moduleName: string) => page.getByText(moduleName);
     this.addedModule = (moduleName: string) => page.getByText(moduleName);
   }
-  async getFlowNameInput(): Promise<Locator> {
+  getFlowNameInput(): Locator {
     return this.flowNameInput;
   }
 
-  async getFlowName(flowName: string): Promise<Locator> {
+  getFlowName(flowName: string): Locator {
     return this.flowName(flowName);
   }
 
-  async getUnsavedChangesNotification(): Promise<Locator> {
+  getUnsavedChangesNotification(): Locator {
     return this.unsavedChangesNotification;
   }
 
-  async getAddedModuleByName(moduleName: string): Promise<Locator> {
+  getAddedModuleByName(moduleName: string): Locator {
     return this.addedModule(moduleName);
   }
 
@@ -104,7 +104,7 @@ export class NewFlowPage {
   }
 
   async toggleLiveFlow(): Promise<void> {
-    this.liveFlowToggle.click();
+    await this.liveFlowToggle.click();
   }
 
   async addModuleUsingHover(moduleName: string): Promise<void> {

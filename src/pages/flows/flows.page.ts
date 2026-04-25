@@ -25,11 +25,11 @@ export class FlowsPage {
     return await this.flowsTitle.innerText();
   }
 
-  async getFlowsTable(): Promise<Locator> {
+  getFlowsTable(): Locator {
     return this.flowsTable;
   }
 
-  async getFlowRowByParams(name: string, status: string): Promise<Locator> {
+  getFlowRowByParams(name: string, status: string): Locator {
     return this.flowRow(name, status);
   }
 

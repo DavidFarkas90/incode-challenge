@@ -18,16 +18,12 @@ export class SingleIdentityPage {
     });
   }
 
-  async getSingleIdentityTitleByIdentity(identity: string): Promise<Locator> {
-    return await this.singleIdentityTitle(identity);
+  getSingleIdentityTitleByIdentity(identity: string): Locator {
+    return this.singleIdentityTitle(identity);
   }
 
-  async getBackToIdentitiesBreadCrumb(): Promise<Locator> {
-    return await this.backToIdentitiesBreadCrumb;
-  }
-
-  async getIdentityConfirmedLabel(): Promise<Locator> {
-    return await this.identityConfirmedLabel;
+  getIdentityConfirmedLabel(): Locator {
+    return this.identityConfirmedLabel;
   }
 
   async clickBackToIdentitiesBreadCrumb(): Promise<IdentitiesPage> {

@@ -1,5 +1,6 @@
 import { test, expect } from "../fixtures/fixtures";
 import { getValidatedSessionNames } from "../helpers/api-helpers";
+import { getRandomElement } from "../helpers/common-helpers";
 import { PAGE_URLS } from "../constants/urls";
 import { Labels } from "../constants/labels";
 import { SessionsPage } from "../pages/sessions/sessions.page";
@@ -13,18 +14,18 @@ let randomUserName: string;
 test("Assert user name in single session page", async ({ page, request, basePage }) => {
   await test.step("Navigate to Sessions page", async () => {
     await basePage.navigateTo(Labels.SESSIONS);
-    await expect(page).toHaveURL(PAGE_URLS.SESSIONS());
+    await expect(page).toHaveURL(PAGE_URLS.SESSIONS);
 
     sessionsPage = new SessionsPage(page);
     // Get all validated session names via API
     sessionNames = await getValidatedSessionNames(request);
-    randomUserName = sessionNames[Math.floor(Math.random() * sessionNames.length)];
+    randomUserName = getRandomElement(sessionNames);
   });
 
   await test.step("Verify sessions table and user session row is visible", async () => {
-    const sessionsTable = await sessionsPage.getSessionsTable();
+    const sessionsTable = sessionsPage.getSessionsTable();
     await expect(sessionsTable).toBeVisible();
-    const sessionRow = await sessionsPage.getSessionRowByName(randomUserName);
+    const sessionRow = sessionsPage.getSessionRowByName(randomUserName);
     await expect(sessionRow).toBeVisible();
   });
 
