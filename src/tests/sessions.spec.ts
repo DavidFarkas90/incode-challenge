@@ -11,17 +11,21 @@ let singleSessionPage: SingleSessionPage;
 let sessionNames: string[] = [];
 let randomUserName: string;
 
-test("Assert user name in single session page", async ({ page, request, basePage }) => {
-  await test.step("Navigate to Sessions page", async () => {
-    await basePage.navigateTo(Labels.SESSIONS);
-    await expect(page).toHaveURL(PAGE_URLS.SESSIONS);
-
-    sessionsPage = new SessionsPage(page);
-    // Get all validated session names via API
+test.beforeEach("Precondition: get data and navigate to page", async ({ page, request }) => {
+  await test.step("Get valid session names", async () => {
     sessionNames = await getValidatedSessionNames(request);
     randomUserName = getRandomElement(sessionNames);
   });
 
+  await test.step("Navigate to Sessions page", async () => {
+    await page.goto(PAGE_URLS.SESSIONS);
+    await expect(page).toHaveURL(PAGE_URLS.SESSIONS);
+
+    sessionsPage = new SessionsPage(page);
+  });
+});
+
+test("Assert user name in single session page", async () => {
   await test.step("Verify sessions table and user session row is visible", async () => {
     const sessionsTable = sessionsPage.getSessionsTable();
     await expect(sessionsTable).toBeVisible();

@@ -14,13 +14,12 @@ const newFlowName: string = `${flowPrefix}_${generateRandomNumbers()}`; // To en
 const searchPhrase: string = "ID";
 const expectedModuleCount: number = 2;
 
-test.beforeEach("Cleanup created flows", async ({ page: _page, request }) => {
-  await deleteFlowsByName(request, flowPrefix);
-});
-
-test("Create new active flow and verify in flows table", async ({ page, basePage }) => {
+test.beforeEach("Precondition: cleanup data and navigate to page", async ({ page, request }) => {
+  await test.step("Cleanup created flows", async () => {
+    await deleteFlowsByName(request, flowPrefix);
+  });
   await test.step("Navigate to Flows page", async () => {
-    await basePage.navigateTo(Labels.FLOWS);
+    await page.goto(PAGE_URLS.FLOWS);
     await expect(page).toHaveURL(PAGE_URLS.FLOWS);
 
     flowsPage = new FlowsPage(page);
@@ -29,7 +28,9 @@ test("Create new active flow and verify in flows table", async ({ page, basePage
       "Flows page heading should match expected label",
     ).toEqual(Labels.FLOWS);
   });
+});
 
+test("Create new active flow and verify in flows table", async ({ basePage }) => {
   await test.step("Click on add new flow button", async () => {
     newFlowPage = await flowsPage.clickOnAddNewFlowButton();
     await expect(newFlowPage.getFlowName(Labels.NEW_FLOW)).toBeVisible();

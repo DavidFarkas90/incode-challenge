@@ -20,29 +20,31 @@ let userIdentityTitleCase: string;
 let identityId: string;
 
 test.beforeEach(
-  "Precondition: cleanup existing data, and navigate to page",
-  async ({ page, request, basePage }) => {
+  "Precondition: cleanup data, fetch data, and navigate to page",
+  async ({ page, request }) => {
     await test.step("Cleanup existing identities", async () => {
       await deleteAllExistingIdentities(request);
     });
 
-    await test.step("Navigate to Sessions > Single session page", async () => {
-      await basePage.navigateTo(Labels.SESSIONS);
-      await expect(page).toHaveURL(PAGE_URLS.SESSIONS);
-
-      sessionsPage = new SessionsPage(page);
-      // Get all validated session names via API
+    await test.step("Fetch valid session names", async () => {
       sessionNames = await getValidatedSessionNames(request);
       randomUserName = getRandomElement(sessionNames);
       userIdentity = randomUserName.toLowerCase(); // On single identity page it's in lowercase
       userIdentityTitleCase = toTitleCase(randomUserName); // In identity table it's in title case
-      singleSessionPage = await sessionsPage.clickOnSessionRowByName(randomUserName);
+    });
+
+    await test.step("Navigate to Sessions page", async () => {
+      await page.goto(PAGE_URLS.SESSIONS);
+      await expect(page).toHaveURL(PAGE_URLS.SESSIONS);
+
+      sessionsPage = new SessionsPage(page);
     });
   },
 );
 
 test("Add face to database and verify it on Identities page", async ({ page, basePage }) => {
-  await test.step("Verify the face is not added to database", async () => {
+  await test.step("Click on single session and verify the face is not added to database", async () => {
+    singleSessionPage = await sessionsPage.clickOnSessionRowByName(randomUserName);
     await expect(
       await singleSessionPage.isAddFaceToDatabaseDisabled(),
       "Add face to database button should be enabled for this session",
