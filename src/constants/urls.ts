@@ -1,6 +1,5 @@
 export const PAGE_URLS = {
   HOME: "/",
-  LOGIN: "/log-in",
   FLOWS: "/flows",
   IDENTITIES: "/identities",
   SESSIONS: "/sessions",
@@ -14,6 +13,7 @@ export const API_URLS = {
   DELETE_FLOW_BY_ID: (flowId: string) => `${API_URLS.FLOW_BASE_URL()}/${flowId}`,
   DELETE_CUSTOMER_IDENTITY_BY_ID: (customerId: string) =>
     `${API_URLS.API_BASE_URL}/omni/customer?customerId=${customerId}`,
+  LOGIN: () => `${API_URLS.API_BASE_URL}/executive/log-in`,
   LOGOUT: () => `${API_URLS.API_BASE_URL}/executive/logout`,
   VALIDATION_RESULTS_SEARCH_V2: () => `${API_URLS.API_BASE_URL}/omni/validation-results/search/v2`,
   IDENTITIES_SEARCH_V2: () => `${API_URLS.API_BASE_URL}/omni/identities/search/v2`,

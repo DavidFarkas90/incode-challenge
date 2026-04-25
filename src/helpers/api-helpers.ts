@@ -2,22 +2,21 @@ import { APIRequestContext, expect } from "@playwright/test";
 import { API_URLS } from "../constants/urls";
 import { StatusCodes } from "../constants/status-codes";
 
-let _token = "";
-let _apiKey = "";
-
 const DEFAULT_SEARCH_PARAMS = { offset: 0, limit: 20, avoidCounting: true };
+const API_VERSION = "1.0";
 
-export function setApiCredentials(token: string, apiKey: string): void {
+let _token = "";
+
+export function setToken(token: string): void {
   _token = token;
-  _apiKey = apiKey;
 }
 
 function buildHeaders() {
   return {
     accept: "application/json",
-    "api-version": "1.0",
+    "api-version": API_VERSION,
     "content-type": "application/json",
-    "x-api-key": _apiKey,
+    "x-api-key": process.env.API_KEY!,
     "x-incode-hardware-id": _token,
   };
 }
@@ -61,6 +60,24 @@ export async function logout(request: APIRequestContext): Promise<void> {
     headers: buildHeaders(),
   });
   expect(response.status()).toBe(StatusCodes.SUCCESS);
+}
+
+export async function login(
+  request: APIRequestContext,
+  email?: string,
+  password?: string,
+): Promise<string> {
+  const response = await request.post(API_URLS.LOGIN(), {
+    headers: { "api-version": API_VERSION },
+    data: {
+      email: process.env.USER_EMAIL! || email,
+      password: process.env.USER_PASSWORD! || password,
+    },
+  });
+  expect(response.status()).toBe(StatusCodes.SUCCESS);
+  const body = await response.json();
+  const token: string = body.token;
+  return token;
 }
 
 export async function getValidatedSessionNames(request: APIRequestContext): Promise<string[]> {
