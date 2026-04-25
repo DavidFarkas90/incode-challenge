@@ -28,7 +28,7 @@ export async function deleteFlowsById(request: APIRequestContext, flowId: string
   expect((await response.json()).success).toBe(true);
 }
 
-export async function deleteCustomerIdentitiesById(
+async function deleteCustomerIdentitiesById(
   request: APIRequestContext,
   customerId: string,
 ): Promise<void> {
@@ -41,19 +41,17 @@ export async function deleteCustomerIdentitiesById(
 
 export async function deleteAllExistingIdentities(request: APIRequestContext): Promise<void> {
   const identityIdsToDelete: string[] = await getAllIdentityIds(request);
-  await identityIdsToDelete.forEach((identityId) => {
-    deleteCustomerIdentitiesById(request, identityId);
-  });
+  await Promise.all(
+    identityIdsToDelete.map((identityId) => deleteCustomerIdentitiesById(request, identityId)),
+  );
 }
 
-export async function deleteFlowsByIds(
+export async function deleteFlowsByName(
   request: APIRequestContext,
   flowName: string,
 ): Promise<void> {
   const flowIdsToDelete: string[] = await getFlowsIdsByName(request, flowName);
-  await flowIdsToDelete.forEach((flowId) => {
-    deleteFlowsById(request, flowId);
-  });
+  await Promise.all(flowIdsToDelete.map((flowId) => deleteFlowsById(request, flowId)));
 }
 
 export async function logout(request: APIRequestContext): Promise<void> {

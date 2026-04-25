@@ -6,7 +6,7 @@ import { Labels } from "../constants/labels";
 import { StatusCodes } from "../constants/status-codes";
 import { NewFlowPage } from "../pages/flows/new-flow.page";
 import { Modules } from "../constants/modules";
-import { deleteFlowsByIds } from "../helpers/api-helpers";
+import { deleteFlowsByName } from "../helpers/api-helpers";
 
 let flowsPage: FlowsPage;
 let newFlowPage: NewFlowPage;
@@ -16,7 +16,7 @@ const searchPhrase: string = "ID";
 const expectedModuleCount: number = 2;
 
 test.beforeEach("Cleanup created flows", async ({ page, request }) => {
-  await deleteFlowsByIds(request, flowPrefix);
+  await deleteFlowsByName(request, flowPrefix);
 });
 
 test("Create new active flow and verify in flows table", async ({ page, basePage }) => {
