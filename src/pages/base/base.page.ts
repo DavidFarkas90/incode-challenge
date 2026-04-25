@@ -22,12 +22,12 @@ export class BasePage {
     return this.sideNavigation;
   }
 
-  async navigateTo(link: string) {
-    await this.navigationLinks(link).click();
-  }
-
   async getNotificationToast(notificationText: string): Promise<Locator> {
     return this.notificationToast(notificationText);
+  }
+
+  async navigateTo(link: string) {
+    await this.navigationLinks(link).click();
   }
 
   async clickCloseNotificationButton(): Promise<void> {

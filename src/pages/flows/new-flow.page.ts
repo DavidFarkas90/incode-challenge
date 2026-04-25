@@ -103,10 +103,6 @@ export class NewFlowPage {
     await this.searchModulesInput.clear();
   }
 
-  async isSaveChangesButtonDisabled(): Promise<boolean> {
-    return await this.saveChangesButton.isDisabled();
-  }
-
   async toggleLiveFlow(): Promise<void> {
     this.liveFlowToggle.click();
   }
@@ -115,5 +111,9 @@ export class NewFlowPage {
     await this.hoverOverModuleRow(moduleName);
     await this.addModuleButton.waitFor({ state: "visible" });
     await this.clickOnAddModuleButton();
+  }
+
+  async isSaveChangesButtonDisabled(): Promise<boolean> {
+    return await this.saveChangesButton.isDisabled();
   }
 }

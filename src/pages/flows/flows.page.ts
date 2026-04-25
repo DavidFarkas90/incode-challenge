@@ -24,16 +24,17 @@ export class FlowsPage {
   async getFlowsTitle(): Promise<string> {
     return await this.flowsTitle.innerText();
   }
+
   async getFlowsTable(): Promise<Locator> {
     return this.flowsTable;
+  }
+
+  async getFlowRowByParams(name: string, status: string): Promise<Locator> {
+    return this.flowRow(name, status);
   }
 
   async clickOnAddNewFlowButton(): Promise<NewFlowPage> {
     await this.addNewFlowButton.click();
     return new NewFlowPage(this.page);
-  }
-
-  async getFlowRowByParams(name: string, status: string): Promise<Locator> {
-    return this.flowRow(name, status);
   }
 }
