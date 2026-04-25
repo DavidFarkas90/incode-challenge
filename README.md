@@ -13,14 +13,14 @@ src/
 │   ├── base/        # BasePage — side nav and toast notification helpers
 │   ├── flows/       # FlowsPage, NewFlowPage
 │   ├── identities/  # IdentitiesPage, SingleIdentityPage
-│   ├── login/       # LoginPage
 │   └── sessions/    # SessionsPage, SingleSessionPage
 └── tests/           # Test specs
 ```
 
 **Key conventions:**
 
-- All test files import `{ test, expect }` from `src/fixtures/fixtures.ts`, not from `@playwright/test` directly. The fixture handles login before each test and logout after.
+- All test files import `{ test, expect }` from `src/fixtures/fixtures.ts`, not from `@playwright/test` directly. The fixture authenticates via API, injects the token into `localStorage`, navigates to the home page, and calls logout after the test completes.
+- Tests navigate to pages using `page.goto(PAGE_URLS.<PAGE>)` directly — no side-menu clicks for navigation.
 - Page objects do not extend `BasePage`. Tests compose them independently.
 - All page URLs are relative paths in `src/constants/urls.ts`; `baseURL` is set in `playwright.config.ts`.
 - All UI strings used in locators live in `src/constants/labels.ts` — never hardcode them inline.
@@ -44,9 +44,10 @@ Node.js **v18 or later** is required. The recommended approach is to use [nvm](h
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 ```
 
-Then restart your terminal, and install the latest LTS version of Node:
+Then restart your terminal, navigate back to the project folder, and install the latest LTS version of Node:
 
 ```bash
+cd incode-challenge
 nvm install --lts
 nvm use --lts
 ```
@@ -76,9 +77,10 @@ Create a `.env` file at the project root:
 ```
 USER_EMAIL=<username from Incode_QA_Assignment>
 USER_PASSWORD=<password from Incode_QA_Assignment>
+API_KEY=<apiKey from localstorage>
 ```
 
-> On CI these are stored as GitHub repository secrets (`USER_EMAIL`, `USER_PASSWORD`) and injected automatically — no `.env` file is needed there.
+> On CI these are stored as GitHub repository secrets (`USER_EMAIL`, `USER_PASSWORD`, `API_KEY`) and injected automatically — no `.env` file is needed there.
 
 ## Test specs
 
@@ -86,11 +88,11 @@ USER_PASSWORD=<password from Incode_QA_Assignment>
 
 An end-to-end test that validates session data is correctly displayed in the UI.
 
-1. Navigates to the Sessions page
-2. Fetches all validated session names via API and picks one at random
-3. Verifies the session row is visible in the sessions table
-4. Opens the session detail page and confirms the "Session Info" title is present
-5. Scrolls to the ID OCR section and verifies the full name from the OCR data matches the session name
+**Precondition:** fetches all validated session names via API and picks one at random, then navigates to the Sessions page.
+
+1. Verifies the session row is visible in the sessions table
+2. Opens the session detail page and confirms the "Session Info" title is present
+3. Scrolls to the ID OCR section and verifies the full name from the OCR data matches the session name
 
 ---
 
@@ -98,15 +100,14 @@ An end-to-end test that validates session data is correctly displayed in the UI.
 
 Tests the full flow creation workflow from blank form to active entry in the flows table.
 
-**Precondition:** deletes any existing flows matching the test name prefix via API.
+**Precondition:** deletes any existing flows matching the test name prefix via API, then navigates to the Flows page.
 
-1. Navigates to the Flows page and verifies the title
-2. Clicks "New" to open the flow builder
-3. Edits the flow name and saves it
-4. Searches for and adds three modules: ID Capture, ID Validation, and Face Capture
-5. Saves the flow and confirms the success toast
-6. Toggles the flow to "Live" (active), saves again, and confirms the toast
-7. Navigates back to the Flows page and verifies the new flow appears in the table with "Active" status
+1. Clicks "New" to open the flow builder
+2. Edits the flow name and saves it
+3. Searches for and adds three modules: ID Capture, ID Validation, and Face Capture
+4. Saves the flow and confirms the success toast
+5. Toggles the flow to "Live" (active), saves again, and confirms the toast
+6. Navigates back to the Flows page and verifies the new flow appears in the table with "Active" status
 
 ---
 
@@ -114,7 +115,7 @@ Tests the full flow creation workflow from blank form to active entry in the flo
 
 Tests the end-to-end identity creation flow triggered by adding a face from a session.
 
-**Precondition:** deletes all existing identities via API, then navigates to a randomly selected validated session.
+**Precondition:** deletes all existing identities via API, fetches all validated session names and picks one at random, then navigates to the Sessions page.
 
 1. Verifies the "Add face to database" button is enabled
 2. Clicks the button, intercepts the API response, and extracts the created identity UUID
