@@ -1,6 +1,5 @@
 import { Locator, Page } from "@playwright/test";
 import { Labels } from "../../constants/labels";
-import strict from "node:assert/strict";
 import { FlowsPage } from "./flows.page";
 
 export class NewFlowPage {
@@ -51,27 +50,6 @@ export class NewFlowPage {
     this.moduleRow = (moduleName: string) => page.getByText(moduleName);
     this.addedModule = (moduleName: string) => page.getByText(moduleName);
   }
-  async getSelectModulesTab(): Promise<Locator> {
-    return this.selectModulesTab;
-  }
-  async getSettingsTab(): Promise<Locator> {
-    return this.settingsTab;
-  }
-  async getSearchModulesInput(): Promise<Locator> {
-    return this.searchModulesInput;
-  }
-  async getPresentation(): Promise<Locator> {
-    return this.presentation;
-  }
-  async getAddModuleButton(): Promise<Locator> {
-    return this.addModuleButton;
-  }
-  async getRemoveModuleButton(): Promise<Locator> {
-    return this.removeModuleButton;
-  }
-  async getEditFlowNameButton(): Promise<Locator> {
-    return this.editFlowNameButton;
-  }
   async getFlowNameInput(): Promise<Locator> {
     return this.flowNameInput;
   }
@@ -80,34 +58,8 @@ export class NewFlowPage {
     return this.flowName(flowName);
   }
 
-  async getCancelButton(): Promise<Locator> {
-    return this.cancelButton;
-  }
-  async getSaveButton(): Promise<Locator> {
-    return this.saveButton;
-  }
-  async getSaveChangesButton(): Promise<Locator> {
-    return this.saveChangesButton;
-  }
-
-  async getBackToFlowButton(): Promise<Locator> {
-    return this.backToFlowListButton;
-  }
-
-  async getLiveFlowToggle(): Promise<Locator> {
-    return this.liveFlowToggle;
-  }
-
   async getUnsavedChangesNotification(): Promise<Locator> {
     return this.unsavedChangesNotification;
-  }
-
-  async getDetailsAndConfigurationButton(): Promise<Locator> {
-    return this.detailsAndConfigurationButton;
-  }
-
-  async getModuleRowByName(moduleName: string): Promise<Locator> {
-    return this.moduleRow(moduleName);
   }
 
   async getAddedModuleByName(moduleName: string): Promise<Locator> {
@@ -126,10 +78,6 @@ export class NewFlowPage {
     await this.saveChangesButton.click();
   }
 
-  async clickOnCancelButton(): Promise<void> {
-    await this.cancelButton.click();
-  }
-
   async clickOnSaveButton(): Promise<void> {
     await this.saveButton.click();
   }
@@ -139,16 +87,8 @@ export class NewFlowPage {
     return new FlowsPage(this.page);
   }
 
-  async clickOnDetailsAndConfigurationButton(): Promise<void> {
-    await this.detailsAndConfigurationButton.click();
-  }
-
   async clickOnAddModuleButton(): Promise<void> {
     await this.addModuleButton.click();
-  }
-
-  async clickOnRemoveModuleButton(): Promise<void> {
-    await this.removeModuleButton.click();
   }
 
   async hoverOverModuleRow(moduleName: string): Promise<void> {
@@ -159,16 +99,8 @@ export class NewFlowPage {
     await this.searchModulesInput.fill(moduleName);
   }
 
-  async hoverOverSearchedModule(moduleName: string): Promise<void> {
-    await this.presentation.filter({ hasText: moduleName }).hover();
-  }
-
   async clearSearchModuleInput(): Promise<void> {
     await this.searchModulesInput.clear();
-  }
-
-  async hoverOverAddedModule(moduleName: string): Promise<void> {
-    await this.addedModule(moduleName).hover();
   }
 
   async isSaveChangesButtonDisabled(): Promise<boolean> {

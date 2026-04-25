@@ -5,7 +5,6 @@ import { NewFlowPage } from "./new-flow.page";
 export class FlowsPage {
   readonly page: Page;
   readonly flowsTitle: Locator;
-  readonly importButton: Locator;
   readonly addNewFlowButton: Locator;
   readonly flowsTable: Locator;
   readonly flowRow: (name: string, status: string) => Locator;
@@ -13,7 +12,6 @@ export class FlowsPage {
   constructor(page: Page) {
     this.page = page;
     this.flowsTitle = page.getByRole("heading", { name: Labels.FLOWS });
-    this.importButton = page.getByRole("button", { name: Labels.IMPORT });
     this.addNewFlowButton = page.getByRole("button", { name: Labels.NEW });
     this.flowsTable = page.locator("table.flows-table");
     this.flowRow = (name: string, status: string) =>
@@ -26,10 +24,6 @@ export class FlowsPage {
   async getFlowsTitle(): Promise<string> {
     return await this.flowsTitle.innerText();
   }
-  async getNewFlowButton(): Promise<Locator> {
-    return this.addNewFlowButton;
-  }
-
   async getFlowsTable(): Promise<Locator> {
     return this.flowsTable;
   }

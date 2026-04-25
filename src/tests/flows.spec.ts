@@ -23,6 +23,7 @@ test("Create new active flow and verify in flows table", async ({ page, basePage
   await test.step("Navigate to Flows page", async () => {
     await basePage.navigateTo(Labels.FLOWS);
     await expect(page).toHaveURL(PAGE_URLS.FLOWS());
+
     flowsPage = new FlowsPage(page);
     expect(await flowsPage.getFlowsTitle()).toEqual(Labels.FLOWS);
   });
