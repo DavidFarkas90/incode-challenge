@@ -3,7 +3,6 @@ import { generateRandomNumbers } from "../helpers/common-helpers";
 import { PAGE_URLS, API_URLS } from "../constants/urls";
 import { FlowsPage } from "../pages/flows/flows.page";
 import { Labels } from "../constants/labels";
-import { StatusCodes } from "../constants/status-codes";
 import { NewFlowPage } from "../pages/flows/new-flow.page";
 import { Modules } from "../constants/modules";
 import { deleteFlowsByName } from "../helpers/api-helpers";
@@ -15,7 +14,7 @@ const newFlowName: string = `${flowPrefix}_${generateRandomNumbers()}`; // To en
 const searchPhrase: string = "ID";
 const expectedModuleCount: number = 2;
 
-test.beforeEach("Cleanup created flows", async ({ page, request }) => {
+test.beforeEach("Cleanup created flows", async ({ page: _page, request }) => {
   await deleteFlowsByName(request, flowPrefix);
 });
 
