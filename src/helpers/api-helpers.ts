@@ -5,6 +5,8 @@ import { StatusCodes } from "../constants/status-codes";
 let _token = "";
 let _apiKey = "";
 
+const DEFAULT_SEARCH_PARAMS = { offset: 0, limit: 20, avoidCounting: true };
+
 export function setApiCredentials(token: string, apiKey: string): void {
   _token = token;
   _apiKey = apiKey;
@@ -64,7 +66,7 @@ export async function logout(request: APIRequestContext): Promise<void> {
 export async function getValidatedSessionNames(request: APIRequestContext): Promise<string[]> {
   const response = await request.post(API_URLS.VALIDATION_RESULTS_SEARCH_V2(), {
     headers: buildHeaders(),
-    params: { offset: 0, limit: 20, avoidCounting: true },
+    params: DEFAULT_SEARCH_PARAMS,
     data: {},
   });
   expect(response.status()).toBe(StatusCodes.SUCCESS);
@@ -75,7 +77,7 @@ export async function getValidatedSessionNames(request: APIRequestContext): Prom
 export async function getAllIdentityIds(request: APIRequestContext): Promise<string[]> {
   const response = await request.post(API_URLS.IDENTITIES_SEARCH_V2(), {
     headers: buildHeaders(),
-    params: { offset: 0, limit: 20, avoidCounting: true },
+    params: DEFAULT_SEARCH_PARAMS,
     data: {},
   });
   expect(response.status()).toBe(StatusCodes.SUCCESS);
