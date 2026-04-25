@@ -1,6 +1,6 @@
 # Incode E2E Test Suite
 
-Playwright end-to-end test suite for the [Incode demo dashboard](https://demo-dashboard.incode.com), written in TypeScript using the Page Object Model pattern.
+Playwright end-to-end test suite for the [Incode demo dashboard](https://demo-dashboard.incode.com) test automation assignment, written in TypeScript using the Page Object Model pattern.
 
 ## Architecture
 
@@ -79,6 +79,51 @@ USER_PASSWORD=<password from Incode_QA_Assignment>
 ```
 
 > On CI these are stored as GitHub repository secrets (`USER_EMAIL`, `USER_PASSWORD`) and injected automatically — no `.env` file is needed there.
+
+## Test specs
+
+### `sessions.spec.ts` — Session data verification
+
+An end-to-end test that validates session data is correctly displayed in the UI.
+
+1. Navigates to the Sessions page
+2. Fetches all validated session names via API and picks one at random
+3. Verifies the session row is visible in the sessions table
+4. Opens the session detail page and confirms the "Session Info" title is present
+5. Scrolls to the ID OCR section and verifies the full name from the OCR data matches the session name
+
+---
+
+### `flows.spec.ts` — Flow creation and activation
+
+Tests the full flow creation workflow from blank form to active entry in the flows table.
+
+**Precondition:** deletes any existing flows matching the test name prefix via API.
+
+1. Navigates to the Flows page and verifies the title
+2. Clicks "New" to open the flow builder
+3. Edits the flow name and saves it
+4. Searches for and adds three modules: ID Capture, ID Validation, and Face Capture
+5. Saves the flow and confirms the success toast
+6. Toggles the flow to "Live" (active), saves again, and confirms the toast
+7. Navigates back to the Flows page and verifies the new flow appears in the table with "Active" status
+
+---
+
+### `identities.spec.ts` — Add face to database and identity verification
+
+Tests the end-to-end identity creation flow triggered by adding a face from a session.
+
+**Precondition:** deletes all existing identities via API, then navigates to a randomly selected validated session.
+
+1. Verifies the "Add face to database" button is enabled
+2. Clicks the button, intercepts the API response, and extracts the created identity UUID
+3. Confirms the success toast and the "Face in database" status label appear
+4. Opens the hamburger menu and navigates to the identity detail page via "Go to Identity"
+5. Verifies the identity name (lowercase) and "Identity confirmed" label on the detail page
+6. Navigates back to the Identities table via the breadcrumb and confirms the identity row is visible with the correct name (title case) and UUID
+
+---
 
 ## Running the tests
 
