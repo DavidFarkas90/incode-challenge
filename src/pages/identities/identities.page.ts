@@ -23,6 +23,4 @@ export class IdentitiesPage {
   async getIdentitiesRowByParams(name: string, identity: string): Promise<Locator> {
     return await this.identitiesRow(name, identity);
   }
-
-
 }

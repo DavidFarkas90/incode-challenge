@@ -31,12 +31,16 @@ test("Assert user name in single session page", async ({ page, request, basePage
   await test.step("Navigate to single session page and verify session info title", async () => {
     singleSessionPage = await sessionsPage.clickOnSessionRowByName(randomUserName);
     const sessionTitle = await singleSessionPage.getSessionInfoTitle();
-    expect(sessionTitle).toContain(Labels.SESSION_INFO);
+    expect(sessionTitle, "Session detail page should display the Session Info title").toContain(
+      Labels.SESSION_INFO,
+    );
   });
 
   await test.step("Verify ID OCR table and content", async () => {
     const idOCRTableVisible = await singleSessionPage.isIdOCRTableVisible();
-    expect(idOCRTableVisible).toBe(true);
+    expect(idOCRTableVisible, "ID OCR table should be visible after scrolling into view").toBe(
+      true,
+    );
     const userNameInTable = await singleSessionPage.getIdOCRContentByLabel(Labels.FULL_NAME_OCR);
     const expectedUserName = randomUserName.toUpperCase(); // OCR content is in uppercase
     expect(userNameInTable, "User name in ID OCR table matches name from sessions table").toBe(

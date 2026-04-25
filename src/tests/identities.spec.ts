@@ -43,7 +43,10 @@ test.beforeEach(
 
 test("Add face to database and verify it on Identities page", async ({ page, basePage }) => {
   await test.step("Verify the face is not added to database", async () => {
-    await expect(await singleSessionPage.isAddFaceToDatabaseDisabled()).toEqual(false);
+    await expect(
+      await singleSessionPage.isAddFaceToDatabaseDisabled(),
+      "Add face to database button should be enabled for this session",
+    ).toEqual(false);
   });
 
   await test.step("Add face to database", async () => {
@@ -59,7 +62,9 @@ test("Add face to database and verify it on Identities page", async ({ page, bas
     await expect(await singleSessionPage.getFaceInDatabaseLabel()).toBeVisible();
     // Extract created identityId
     const response = await responsePromise;
-    await expect(response.status()).toEqual(StatusCodes.SUCCESS);
+    await expect(response.status(), "Add face to database API call should return HTTP 200").toEqual(
+      StatusCodes.SUCCESS,
+    );
     const body = await response.json();
     identityId = body.uuid;
     await expect(toast).not.toBeVisible({ timeout: 10000 }); // Wait for toast to disappear so that the identity is added to the table
@@ -83,6 +88,7 @@ test("Add face to database and verify it on Identities page", async ({ page, bas
     await expect(await identitiesPage.getIdentitiesTitle()).toBeVisible();
     await expect(
       await identitiesPage.getIdentitiesRowByParams(userIdentityTitleCase, identityId),
+      "Created identity should appear in the table with the correct name and UUID",
     ).toBeVisible();
   });
 });

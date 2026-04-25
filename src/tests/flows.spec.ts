@@ -25,7 +25,10 @@ test("Create new active flow and verify in flows table", async ({ page, basePage
     await expect(page).toHaveURL(PAGE_URLS.FLOWS());
 
     flowsPage = new FlowsPage(page);
-    expect(await flowsPage.getFlowsTitle()).toEqual(Labels.FLOWS);
+    expect(
+      await flowsPage.getFlowsTitle(),
+      "Flows page heading should match expected label",
+    ).toEqual(Labels.FLOWS);
   });
 
   await test.step("Click on add new flow button", async () => {
@@ -42,42 +45,57 @@ test("Create new active flow and verify in flows table", async ({ page, basePage
   });
 
   await test.step("Add ID Capture module to the flow", async () => {
-    expect(await newFlowPage.isSaveChangesButtonDisabled()).toBe(true);
+    expect(
+      await newFlowPage.isSaveChangesButtonDisabled(),
+      "Save Changes button should be disabled before any module is added",
+    ).toBe(true);
     // Add modules using the search input
     await newFlowPage.searchForModule(searchPhrase);
     await newFlowPage.addModuleUsingHover(Modules.ID_CAPTURE);
-    await expect(await newFlowPage.getAddedModuleByName(Modules.ID_CAPTURE)).toHaveCount(
-      expectedModuleCount,
-    );
-    expect(await newFlowPage.isSaveChangesButtonDisabled()).toBe(false);
+    await expect(
+      await newFlowPage.getAddedModuleByName(Modules.ID_CAPTURE),
+      "ID Capture module should appear in both the module list and the flow preview",
+    ).toHaveCount(expectedModuleCount);
+    expect(
+      await newFlowPage.isSaveChangesButtonDisabled(),
+      "Save Changes button should be enabled after adding a module",
+    ).toBe(false);
   });
 
   await test.step("Add ID Validation module to the flow", async () => {
     await newFlowPage.addModuleUsingHover(Modules.ID_VALIDATION);
-    await expect(await newFlowPage.getAddedModuleByName(Modules.ID_VALIDATION)).toHaveCount(
-      expectedModuleCount,
-    );
+    await expect(
+      await newFlowPage.getAddedModuleByName(Modules.ID_VALIDATION),
+      "ID Validation module should appear in both the module list and the flow preview",
+    ).toHaveCount(expectedModuleCount);
     await newFlowPage.clearSearchModuleInput();
   });
 
   await test.step("Add Face Capture module to the flow", async () => {
     await newFlowPage.addModuleUsingHover(Modules.FACE_CAPTURE);
-    await expect(await newFlowPage.getAddedModuleByName(Modules.FACE_CAPTURE)).toHaveCount(
-      expectedModuleCount,
-    );
+    await expect(
+      await newFlowPage.getAddedModuleByName(Modules.FACE_CAPTURE),
+      "Face Capture module should appear in both the module list and the flow preview",
+    ).toHaveCount(expectedModuleCount);
   });
 
   await test.step("Save changes to new flow", async () => {
     await newFlowPage.clickOnSaveChangesButton();
     expect(await basePage.getNotificationToast(Labels.FLOW_SAVED_CORRECTLY)).toBeVisible();
     await basePage.clickCloseNotificationButton();
-    expect(await newFlowPage.isSaveChangesButtonDisabled()).toBe(true);
+    expect(
+      await newFlowPage.isSaveChangesButtonDisabled(),
+      "Save Changes button should be disabled after saving",
+    ).toBe(true);
   });
 
   await test.step("Update created flow to live flow", async () => {
     await newFlowPage.toggleLiveFlow();
     await expect(await newFlowPage.getUnsavedChangesNotification()).toBeVisible();
-    expect(await newFlowPage.isSaveChangesButtonDisabled()).toBe(false);
+    expect(
+      await newFlowPage.isSaveChangesButtonDisabled(),
+      "Save Changes button should be enabled after toggling live flow",
+    ).toBe(false);
     await newFlowPage.clickOnSaveChangesButton();
     expect(await basePage.getNotificationToast(Labels.FLOW_SAVED_CORRECTLY)).toBeVisible();
     await basePage.clickCloseNotificationButton();
