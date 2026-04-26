@@ -9,7 +9,7 @@ import { deleteFlowsByName } from "../helpers/api-helpers";
 
 let flowsPage: FlowsPage;
 let newFlowPage: NewFlowPage;
-const flowPrefix = "Incode Flow";
+const flowPrefix: string = "Incode Flow";
 const newFlowName: string = `${flowPrefix}_${generateRandomNumbers()}`; // To ensure unique flow name for each test run
 const searchPhrase: string = "ID";
 const expectedModuleCount: number = 2;

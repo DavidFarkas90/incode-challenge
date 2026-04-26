@@ -8,45 +8,32 @@ export class NewFlowPage {
   readonly editFlowNameButton: Locator;
   readonly flowNameInput: Locator;
   readonly flowName: (flowName: string) => Locator;
-  readonly cancelButton: Locator;
   readonly saveButton: Locator;
   readonly saveChangesButton: Locator;
   readonly liveFlowToggle: Locator;
   readonly unsavedChangesNotification: Locator;
   readonly backToFlowListButton: Locator;
-  // Tabs
-  readonly selectModulesTab: Locator;
-  readonly settingsTab: Locator;
   // Select Modules tab
   readonly searchModulesInput: Locator;
   readonly presentation: Locator;
   readonly addModuleButton: Locator;
-  readonly removeModuleButton: Locator;
-  readonly detailsAndConfigurationButton: Locator;
   readonly moduleRow: (moduleName: string) => Locator;
   // Added flow preview
   readonly addedModule: (moduleName: string) => Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.selectModulesTab = page.getByRole("tab", { name: Labels.SELECT_MODULES });
-    this.settingsTab = page.getByRole("tab", { name: Labels.SETTINGS });
     this.searchModulesInput = page.getByRole("textbox", { name: Labels.SEARCH_MODULES });
     this.presentation = page.getByRole("presentation");
     this.addModuleButton = page.getByRole("button", { name: Labels.ADD });
-    this.removeModuleButton = page.getByRole("button", { name: Labels.REMOVE });
     this.editFlowNameButton = page.getByRole("button", { name: Labels.EDIT_FLOW_NAME });
     this.flowNameInput = page.getByRole("textbox", { name: Labels.FLOW_NAME });
     this.flowName = (flowName: string) => page.getByRole("heading", { name: flowName });
-    this.cancelButton = page.getByRole("button", { name: Labels.CANCEL });
     this.saveButton = page.getByRole("button", { name: Labels.SAVE, exact: true });
     this.saveChangesButton = page.getByRole("button", { name: Labels.SAVE_CHANGES, exact: true });
     this.liveFlowToggle = page.getByRole("button", { name: Labels.LIVE_FLOW });
     this.unsavedChangesNotification = page.getByText(Labels.UNSAVED_CHANGES);
     this.backToFlowListButton = page.getByRole("button", { name: Labels.BACK_FLOW_LIST });
-    this.detailsAndConfigurationButton = page.getByRole("button", {
-      name: Labels.DETAILS_AND_CONFIGURATION,
-    });
     this.moduleRow = (moduleName: string) => this.presentation.getByText(moduleName);
     this.addedModule = (moduleName: string) => page.getByText(moduleName);
   }
