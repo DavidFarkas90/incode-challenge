@@ -10,7 +10,7 @@ src/
 ├── fixtures/        # Custom test fixture — handles login, exposes basePage
 ├── helpers/         # API utilities (cleanup, data retrieval) and common utilities
 ├── pages/           # Page objects, one class per page
-│   ├── base/        # BasePage — side nav and toast notification helpers
+│   ├── base/        # BasePage — toast notification helpers
 │   ├── flows/       # FlowsPage, NewFlowPage
 │   ├── identities/  # IdentitiesPage, SingleIdentityPage
 │   └── sessions/    # SessionsPage, SingleSessionPage
