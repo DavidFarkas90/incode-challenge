@@ -21,6 +21,10 @@ export class FlowsPage {
         .filter({ has: page.getByRole("cell", { name: status, exact: true }) });
   }
 
+  getFlowsTitle(): Locator {
+    return this.flowsTitle;
+  }
+
   getFlowsTable(): Locator {
     return this.flowsTable;
   }

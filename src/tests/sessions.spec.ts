@@ -35,15 +35,15 @@ test("Assert user name in single session page", async () => {
   await test.step("Navigate to single session page and verify session info title", async () => {
     singleSessionPage = await sessionsPage.clickOnSessionRowByName(randomUserName);
     await expect(
-      singleSessionPage.sessionInfoTitle,
+      singleSessionPage.getSessionInfoTitle(),
       "Session detail page should display the Session Info title",
     ).toBeVisible();
   });
 
   await test.step("Verify ID OCR table and content", async () => {
-    await singleSessionPage.idOCRTable.scrollIntoViewIfNeeded();
+    await singleSessionPage.getIdOCRTable().scrollIntoViewIfNeeded();
     await expect(
-      singleSessionPage.idOCRTable,
+      singleSessionPage.getIdOCRTable(),
       "ID OCR table should be visible after scrolling into view",
     ).toBeVisible();
     const userNameInTable = await singleSessionPage.getIdOCRContentByLabel(Labels.FULL_NAME_OCR);

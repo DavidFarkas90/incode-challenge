@@ -58,6 +58,10 @@ export class NewFlowPage {
     return this.flowName(flowName);
   }
 
+  getSaveChangesButton(): Locator {
+    return this.saveChangesButton;
+  }
+
   getUnsavedChangesNotification(): Locator {
     return this.unsavedChangesNotification;
   }

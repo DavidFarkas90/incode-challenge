@@ -45,7 +45,7 @@ test.beforeEach(
 test("Add face to database and verify it on Identities page", async ({ page, basePage }) => {
   await test.step("Verify the face is not added to database", async () => {
     await expect(
-      singleSessionPage.addFaceToDatabaseButton,
+      singleSessionPage.getAddFaceToDatabaseButton(),
       "Add face to database button should be enabled for this session",
     ).not.toBeDisabled();
   });

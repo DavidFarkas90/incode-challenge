@@ -27,6 +27,14 @@ export class SingleSessionPage {
     this.idOCRContent = page.locator(".id-info .dinamic-field");
   }
 
+  getSessionInfoTitle(): Locator {
+    return this.sessionInfoTitle;
+  }
+
+  getAddFaceToDatabaseButton(): Locator {
+    return this.addFaceToDatabaseButton;
+  }
+
   getFaceInDatabaseLabel(): Locator {
     return this.faceInDatabaseLabel;
   }

@@ -24,7 +24,7 @@ test.beforeEach("Precondition: cleanup data and navigate to page", async ({ page
 
     flowsPage = new FlowsPage(page);
     await expect(
-      flowsPage.flowsTitle,
+      flowsPage.getFlowsTitle(),
       "Flows page heading should match expected label",
     ).toBeVisible();
   });
@@ -46,7 +46,7 @@ test("Create new active flow and verify in flows table", async ({ basePage }) =>
 
   await test.step("Add ID Capture module to the flow", async () => {
     await expect(
-      newFlowPage.saveChangesButton,
+      newFlowPage.getSaveChangesButton(),
       "Save Changes button should be disabled before any module is added",
     ).toBeDisabled();
     // Add modules using the search input
@@ -57,7 +57,7 @@ test("Create new active flow and verify in flows table", async ({ basePage }) =>
       "ID Capture module should appear in both the module list and the flow preview",
     ).toHaveCount(expectedModuleCount);
     await expect(
-      newFlowPage.saveChangesButton,
+      newFlowPage.getSaveChangesButton(),
       "Save Changes button should be enabled after adding a module",
     ).not.toBeDisabled();
   });
@@ -84,7 +84,7 @@ test("Create new active flow and verify in flows table", async ({ basePage }) =>
     await expect(basePage.getNotificationToast(Labels.FLOW_SAVED_CORRECTLY)).toBeVisible();
     await basePage.clickCloseNotificationButton();
     await expect(
-      newFlowPage.saveChangesButton,
+      newFlowPage.getSaveChangesButton(),
       "Save Changes button should be disabled after saving",
     ).toBeDisabled();
   });
@@ -93,7 +93,7 @@ test("Create new active flow and verify in flows table", async ({ basePage }) =>
     await newFlowPage.toggleLiveFlow();
     await expect(newFlowPage.getUnsavedChangesNotification()).toBeVisible();
     await expect(
-      newFlowPage.saveChangesButton,
+      newFlowPage.getSaveChangesButton(),
       "Save Changes button should be enabled after toggling live flow",
     ).not.toBeDisabled();
     await newFlowPage.clickOnSaveChangesButton();
