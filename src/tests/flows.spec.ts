@@ -23,10 +23,10 @@ test.beforeEach("Precondition: cleanup data and navigate to page", async ({ page
     await expect(page).toHaveURL(PAGE_URLS.FLOWS);
 
     flowsPage = new FlowsPage(page);
-    expect(
-      await flowsPage.getFlowsTitle(),
+    await expect(
+      flowsPage.flowsTitle,
       "Flows page heading should match expected label",
-    ).toEqual(Labels.FLOWS);
+    ).toBeVisible();
   });
 });
 
@@ -45,10 +45,10 @@ test("Create new active flow and verify in flows table", async ({ basePage }) =>
   });
 
   await test.step("Add ID Capture module to the flow", async () => {
-    expect(
-      await newFlowPage.isSaveChangesButtonDisabled(),
+    await expect(
+      newFlowPage.saveChangesButton,
       "Save Changes button should be disabled before any module is added",
-    ).toBe(true);
+    ).toBeDisabled();
     // Add modules using the search input
     await newFlowPage.searchForModule(searchPhrase);
     await newFlowPage.addModuleUsingHover(Modules.ID_CAPTURE);
@@ -56,10 +56,10 @@ test("Create new active flow and verify in flows table", async ({ basePage }) =>
       newFlowPage.getAddedModuleByName(Modules.ID_CAPTURE),
       "ID Capture module should appear in both the module list and the flow preview",
     ).toHaveCount(expectedModuleCount);
-    expect(
-      await newFlowPage.isSaveChangesButtonDisabled(),
+    await expect(
+      newFlowPage.saveChangesButton,
       "Save Changes button should be enabled after adding a module",
-    ).toBe(false);
+    ).not.toBeDisabled();
   });
 
   await test.step("Add ID Validation module to the flow", async () => {
@@ -83,19 +83,19 @@ test("Create new active flow and verify in flows table", async ({ basePage }) =>
     await newFlowPage.clickOnSaveChangesButton();
     await expect(basePage.getNotificationToast(Labels.FLOW_SAVED_CORRECTLY)).toBeVisible();
     await basePage.clickCloseNotificationButton();
-    expect(
-      await newFlowPage.isSaveChangesButtonDisabled(),
+    await expect(
+      newFlowPage.saveChangesButton,
       "Save Changes button should be disabled after saving",
-    ).toBe(true);
+    ).toBeDisabled();
   });
 
   await test.step("Update created flow to live flow", async () => {
     await newFlowPage.toggleLiveFlow();
     await expect(newFlowPage.getUnsavedChangesNotification()).toBeVisible();
-    expect(
-      await newFlowPage.isSaveChangesButtonDisabled(),
+    await expect(
+      newFlowPage.saveChangesButton,
       "Save Changes button should be enabled after toggling live flow",
-    ).toBe(false);
+    ).not.toBeDisabled();
     await newFlowPage.clickOnSaveChangesButton();
     await expect(basePage.getNotificationToast(Labels.FLOW_SAVED_CORRECTLY)).toBeVisible();
     await basePage.clickCloseNotificationButton();

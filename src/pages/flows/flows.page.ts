@@ -21,10 +21,6 @@ export class FlowsPage {
         .filter({ has: page.getByRole("cell", { name: status, exact: true }) });
   }
 
-  async getFlowsTitle(): Promise<string> {
-    return await this.flowsTitle.innerText();
-  }
-
   getFlowsTable(): Locator {
     return this.flowsTable;
   }

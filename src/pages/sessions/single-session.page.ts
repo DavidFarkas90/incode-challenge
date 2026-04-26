@@ -27,10 +27,6 @@ export class SingleSessionPage {
     this.idOCRContent = page.locator(".id-info .dinamic-field");
   }
 
-  async getSessionInfoTitle(): Promise<string> {
-    return await this.sessionInfoTitle.innerText();
-  }
-
   getFaceInDatabaseLabel(): Locator {
     return this.faceInDatabaseLabel;
   }
@@ -65,15 +61,5 @@ export class SingleSessionPage {
   async clickOnGoToIdentityMenuItem(): Promise<SingleIdentityPage> {
     await this.menuListItem(Labels.GO_TO_IDENTITY).click();
     return new SingleIdentityPage(this.page);
-  }
-
-  async isAddFaceToDatabaseDisabled(): Promise<boolean> {
-    return await this.addFaceToDatabaseButton.isDisabled();
-  }
-
-  async isIdOCRTableVisible(): Promise<boolean> {
-    const idOCRTable = this.getIdOCRTable();
-    await idOCRTable.scrollIntoViewIfNeeded();
-    return await idOCRTable.isVisible();
   }
 }

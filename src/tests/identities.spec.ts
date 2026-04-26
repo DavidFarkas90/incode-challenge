@@ -46,9 +46,9 @@ test("Add face to database and verify it on Identities page", async ({ page, bas
   await test.step("Click on single session and verify the face is not added to database", async () => {
     singleSessionPage = await sessionsPage.clickOnSessionRowByName(randomUserName);
     await expect(
-      await singleSessionPage.isAddFaceToDatabaseDisabled(),
+      singleSessionPage.addFaceToDatabaseButton,
       "Add face to database button should be enabled for this session",
-    ).toEqual(false);
+    ).not.toBeDisabled();
   });
 
   await test.step("Add face to database", async () => {
@@ -64,7 +64,7 @@ test("Add face to database and verify it on Identities page", async ({ page, bas
     await expect(singleSessionPage.getFaceInDatabaseLabel()).toBeVisible();
     // Extract created identityId
     const response = await responsePromise;
-    await expect(response.status(), "Add face to database API call should return HTTP 200").toEqual(
+    expect(response.status(), "Add face to database API call should return HTTP 200").toEqual(
       StatusCodes.SUCCESS,
     );
     const body = await response.json();

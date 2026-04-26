@@ -32,7 +32,7 @@ export const Labels = {
   SAVE: "Save",
   SEARCH_MODULES: "Search modules",
   SELECT_MODULES: "Select Modules",
-  SESSION_INFO: "Session Info",
+  SESSION_INFO: "Session info",
   SESSIONS: "Sessions",
   SETTINGS: "Settings",
   UNSAVED_CHANGES: "Unsaved changes",

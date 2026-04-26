@@ -112,8 +112,4 @@ export class NewFlowPage {
     await this.addModuleButton.waitFor({ state: "visible" });
     await this.clickOnAddModuleButton();
   }
-
-  async isSaveChangesButtonDisabled(): Promise<boolean> {
-    return await this.saveChangesButton.isDisabled();
-  }
 }
