@@ -13,7 +13,7 @@ export class FlowsPage {
     this.page = page;
     this.flowsTitle = page.getByRole("heading", { name: Labels.FLOWS });
     this.addNewFlowButton = page.getByRole("button", { name: Labels.NEW });
-    this.flowsTable = page.locator("table.flows-table");
+    this.flowsTable = page.getByRole("table");
     this.flowRow = (name: string, status: string) =>
       page
         .getByRole("row")

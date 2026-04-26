@@ -47,7 +47,7 @@ export class NewFlowPage {
     this.detailsAndConfigurationButton = page.getByRole("button", {
       name: Labels.DETAILS_AND_CONFIGURATION,
     });
-    this.moduleRow = (moduleName: string) => page.getByText(moduleName);
+    this.moduleRow = (moduleName: string) => this.presentation.getByText(moduleName);
     this.addedModule = (moduleName: string) => page.getByText(moduleName);
   }
   getFlowNameInput(): Locator {

@@ -22,6 +22,7 @@ export const Labels = {
   IMPORT: "Import",
   LIVE_FLOW: "Live flow",
   MAIN_NAVIGATION: "Main navigation",
+  MENU_ICON: "menu icon",
   NEW_FLOW: "New flow",
   NEW: "New",
   PRESENTATION: "Presentation",

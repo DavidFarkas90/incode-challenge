@@ -18,12 +18,11 @@ export class SingleSessionPage {
   constructor(page: Page) {
     this.page = page;
     this.sessionInfoTitle = page.getByText(Labels.SESSION_INFO);
-    this.addFaceToDatabaseButton = page.getByTestId("button-icon-iconBtnAdd");
-    this.faceInDatabaseLabel = page.locator(".status-set", { hasText: Labels.FACE_IN_DATABASE });
-    this.hamburgerMenuIcon = page.getByRole("button", { name: "menu icon" });
+    this.addFaceToDatabaseButton = page.getByRole("button", { name: Labels.ADD_FACE_TO_DATABASE });
+    this.faceInDatabaseLabel = page.getByText(Labels.FACE_IN_DATABASE);
+    this.hamburgerMenuIcon = page.getByRole("button", { name: Labels.MENU_ICON });
     this.menuList = page.locator("ul.menu-list__list");
-    this.menuListItem = (menuItem: string) =>
-      page.locator("ul.menu-list__list", { hasText: menuItem });
+    this.menuListItem = (menuItem: string) => this.menuList.getByText(menuItem);
     this.idOCRTable = page.getByText(Labels.ID_OCR);
     this.idOCRContent = page.locator(".id-info .dinamic-field");
   }

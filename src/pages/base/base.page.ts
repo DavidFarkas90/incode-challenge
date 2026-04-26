@@ -14,7 +14,7 @@ export class BasePage {
     this.navigationLinks = (link: string) =>
       this.sideNavigation.getByRole("link").filter({ hasText: new RegExp(`^\\s*${link}\\s*$`) });
     this.notificationToast = (notificationText: string) =>
-      page.locator(".Toastify__toast", { hasText: notificationText });
+      page.getByRole("alert").filter({ hasText: notificationText });
     this.closeToastNotification = page.getByRole("button", { name: Labels.CLOSE });
   }
 
