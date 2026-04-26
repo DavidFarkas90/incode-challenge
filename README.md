@@ -19,7 +19,7 @@ src/
 
 **Key conventions:**
 
-- All test files import `{ test, expect }` from `src/fixtures/fixtures.ts`, not from `@playwright/test` directly. The fixture authenticates via API, injects the token into `localStorage`, navigates to the home page, and calls logout after the test completes.
+- All test files import `{ test, expect }` from `src/fixtures/fixtures.ts`, not from `@playwright/test` directly. The fixture authenticates via API, injects the token into `localStorage`, and calls logout after the test completes.
 - Tests navigate to pages using `page.goto(PAGE_URLS.<PAGE>)` directly — no side-menu clicks for navigation.
 - Page objects do not extend `BasePage`. Tests compose them independently.
 - All page URLs are relative paths in `src/constants/urls.ts`; `baseURL` is set in `playwright.config.ts`.
@@ -65,10 +65,10 @@ npm install
 ### 4. Install Playwright browsers
 
 ```bash
-npx playwright install --with-deps
+npx playwright install chromium --with-deps
 ```
 
-This downloads Chromium, Firefox, and WebKit along with their system dependencies.
+This downloads Chromium along with its system dependencies.
 
 ### 5. Configure environment variables
 
@@ -88,7 +88,7 @@ API_KEY=<apiKey from localstorage>
 
 An end-to-end test that validates session data is correctly displayed in the UI.
 
-**Precondition:** fetches all validated session names via API and picks one at random, then navigates to the Sessions page.
+**Precondition:** fetches validated sessions (finished, alive status) via API, picks one at random, then navigates to the Sessions page.
 
 1. Verifies the session row is visible in the sessions table
 2. Opens the session detail page and confirms the "Session Info" title is present
@@ -115,7 +115,7 @@ Tests the full flow creation workflow from blank form to active entry in the flo
 
 Tests the end-to-end identity creation flow triggered by adding a face from a session.
 
-**Precondition:** deletes all existing identities via API, fetches all validated session names and picks one at random, then navigates to the Sessions page.
+**Precondition:** deletes all existing identities via API, fetches validated sessions (finished, alive status) and picks one at random, then navigates directly to the single session page by ID.
 
 1. Verifies the "Add face to database" button is enabled
 2. Clicks the button, intercepts the API response, and extracts the created identity UUID
@@ -129,11 +129,8 @@ Tests the end-to-end identity creation flow triggered by adding a face from a se
 ## Running the tests
 
 ```bash
-# All tests, all browsers
+# All tests
 npx playwright test
-
-# Single browser
-npx playwright test --project=chromium
 
 # Sessions tests only
 npx playwright test src/tests/sessions.spec.ts
