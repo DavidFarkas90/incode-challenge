@@ -80,7 +80,9 @@ export async function login(
   return token;
 }
 
-export async function getValidatedSessionNames(request: APIRequestContext): Promise<string[]> {
+export async function getValidatedSessions(
+  request: APIRequestContext,
+): Promise<{ name: string; id: string }[]> {
   const response = await request.post(API_URLS.VALIDATION_RESULTS_SEARCH_V2(), {
     headers: buildHeaders(),
     params: DEFAULT_SEARCH_PARAMS,
@@ -88,7 +90,16 @@ export async function getValidatedSessionNames(request: APIRequestContext): Prom
   });
   expect(response.status()).toBe(StatusCodes.SUCCESS);
   const body = await response.json();
-  return body.interviews.map((interview: { name: string }) => interview.name).filter(Boolean);
+  return body.interviews
+    .filter(
+      (interview: { finishStatus: boolean; sessionStatus: string }) =>
+        interview.finishStatus === true && interview.sessionStatus === "Alive",
+    )
+    .map((interview: { name: string; _id: string }) => ({
+      name: interview.name,
+      id: interview._id,
+    }))
+    .filter((session: { name: string; id: string }) => session.name && session.id);
 }
 
 export async function getAllIdentityIds(request: APIRequestContext): Promise<string[]> {

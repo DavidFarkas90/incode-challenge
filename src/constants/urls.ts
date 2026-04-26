@@ -3,6 +3,7 @@ export const PAGE_URLS = {
   FLOWS: "/flows",
   IDENTITIES: "/identities",
   SESSIONS: "/sessions",
+  SINGLE_SESSION: (id: string) => `/single-session/${id}`,
 };
 
 export const API_URLS = {
