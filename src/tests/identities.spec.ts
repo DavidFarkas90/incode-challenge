@@ -1,20 +1,18 @@
 import { test, expect } from "../fixtures/fixtures";
 import { Labels } from "../constants/labels";
 import { StatusCodes } from "../constants/status-codes";
-import { getValidatedSessionNames, deleteAllExistingIdentities } from "../helpers/api-helpers";
+import { getValidatedSessions, deleteAllExistingIdentities } from "../helpers/api-helpers";
 import { getRandomElement, toTitleCase } from "../helpers/common-helpers";
 import { PAGE_URLS, API_URLS } from "../constants/urls";
-import { SessionsPage } from "../pages/sessions/sessions.page";
 import { SingleSessionPage } from "../pages/sessions/single-session.page";
 import { IdentitiesPage } from "../pages/identities/identities.page";
 import { SingleIdentityPage } from "../pages/identities/single-identity.page";
 
-let sessionsPage: SessionsPage;
 let singleSessionPage: SingleSessionPage;
 let singleIdentityPage: SingleIdentityPage;
 let identitiesPage: IdentitiesPage;
-let sessionNames: string[] = [];
 let randomUserName: string;
+let sessionId: string;
 let userIdentity: string;
 let userIdentityTitleCase: string;
 let identityId: string;
@@ -26,25 +24,26 @@ test.beforeEach(
       await deleteAllExistingIdentities(request);
     });
 
-    await test.step("Fetch valid session names", async () => {
-      sessionNames = await getValidatedSessionNames(request);
-      randomUserName = getRandomElement(sessionNames);
+    await test.step("Fetch valid session data", async () => {
+      const sessions = await getValidatedSessions(request);
+      const randomSession = getRandomElement(sessions);
+      randomUserName = randomSession.name;
+      sessionId = randomSession.id;
       userIdentity = randomUserName.toLowerCase(); // On single identity page it's in lowercase
       userIdentityTitleCase = toTitleCase(randomUserName); // In identity table it's in title case
     });
 
-    await test.step("Navigate to Sessions page", async () => {
-      await page.goto(PAGE_URLS.SESSIONS);
-      await expect(page).toHaveURL(PAGE_URLS.SESSIONS);
+    await test.step("Navigate to single session page", async () => {
+      await page.goto(PAGE_URLS.SINGLE_SESSION(sessionId));
+      await expect(page).toHaveURL(PAGE_URLS.SINGLE_SESSION(sessionId));
 
-      sessionsPage = new SessionsPage(page);
+      singleSessionPage = new SingleSessionPage(page);
     });
   },
 );
 
 test("Add face to database and verify it on Identities page", async ({ page, basePage }) => {
-  await test.step("Click on single session and verify the face is not added to database", async () => {
-    singleSessionPage = await sessionsPage.clickOnSessionRowByName(randomUserName);
+  await test.step("Verify the face is not added to database", async () => {
     await expect(
       singleSessionPage.addFaceToDatabaseButton,
       "Add face to database button should be enabled for this session",

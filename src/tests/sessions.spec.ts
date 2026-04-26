@@ -1,5 +1,5 @@
 import { test, expect } from "../fixtures/fixtures";
-import { getValidatedSessionNames } from "../helpers/api-helpers";
+import { getValidatedSessions } from "../helpers/api-helpers";
 import { getRandomElement } from "../helpers/common-helpers";
 import { PAGE_URLS } from "../constants/urls";
 import { Labels } from "../constants/labels";
@@ -8,13 +8,12 @@ import { SingleSessionPage } from "../pages/sessions/single-session.page";
 
 let sessionsPage: SessionsPage;
 let singleSessionPage: SingleSessionPage;
-let sessionNames: string[] = [];
 let randomUserName: string;
 
 test.beforeEach("Precondition: get data and navigate to page", async ({ page, request }) => {
   await test.step("Get valid session names", async () => {
-    sessionNames = await getValidatedSessionNames(request);
-    randomUserName = getRandomElement(sessionNames);
+    const sessions = await getValidatedSessions(request);
+    randomUserName = getRandomElement(sessions).name;
   });
 
   await test.step("Navigate to Sessions page", async () => {
