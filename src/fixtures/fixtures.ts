@@ -1,7 +1,6 @@
 import "dotenv/config";
 import { test as base } from "@playwright/test";
 import { BasePage } from "../pages/base/base.page";
-import { PAGE_URLS } from "../constants/urls";
 import { logout, login, setToken } from "../helpers/api-helpers";
 
 export const test = base.extend<{ basePage: BasePage }>({
@@ -15,8 +14,6 @@ export const test = base.extend<{ basePage: BasePage }>({
       },
       { token, apiKey: process.env.API_KEY },
     );
-
-    await page.goto(PAGE_URLS.HOME);
 
     await use(page);
 
