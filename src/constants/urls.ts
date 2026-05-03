@@ -8,7 +8,7 @@ export const PAGE_URLS = {
 
 export const API_URLS = {
   API_BASE_URL: "https://demo-api.incodesmile.com",
-  ADD_FACE_TO_DATABASE: () => `${API_URLS.API_BASE_URL}/omni/process/approve`,
+  ADD_FACE_TO_DATABASE: () => `${API_URLS.API_BASE_URL}/omni/internal/dashboard/process/approve`,
   FLOW_BASE_URL: () => `${API_URLS.API_BASE_URL}/omni/flow`,
   FLOWS_LIST: () => `${API_URLS.API_BASE_URL}/omni/flows`,
   DELETE_FLOW_BY_ID: (flowId: string) => `${API_URLS.FLOW_BASE_URL()}/${flowId}`,
